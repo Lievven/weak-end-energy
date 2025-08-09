@@ -14,6 +14,7 @@ var conGeneral = {
     maxPlayers: 4,
     groupTasksCompletionTarget: 8,
     numMaxSessions: 10,
+    playerTimeoutMs : 25000,
 }
 conGeneral.cardStackSize = conGeneral.numTurns * conGeneral.maxPlayers + conGeneral.numCardsOnHand * conGeneral.maxPlayers;
 
@@ -208,8 +209,12 @@ function GetOrCreateSession(user) {
         var lastSession = sessions[sessions.length - 1];
 
         if (lastSession.gameState == null || lastSession.gameState.turnIndex < 0) {
-            AddPlayerToSession(lastSession, user);
-            return lastSession;
+            var allPlayersInSession = lastSession.gameState.players;
+
+            if (allPlayersInSession.length == 0 || allPlayersInSession.every(v => (Date.now() - v.dtLastPing)) < conGeneral.playerTimeoutMs) {
+                AddPlayerToSession(lastSession, user);
+                return lastSession;
+            }
         }
     }
 
@@ -242,6 +247,7 @@ function GetExistingSession(user) {
         for (let playerIndex = 0; playerIndex < session.gameState.players.length; playerIndex++) {
             const player = session.gameState.players[playerIndex];
             if (player.name == user) {
+                player.dtLastPing = Date.now();
                 return session;
             }
         }
@@ -261,7 +267,7 @@ function AddPlayerToSession(session, user) {
         stagedCard: null,
         chosenCard: null,
         lastChosenCard: null,
-        joinDate: Date.now()
+        dtLastPing: Date.now()
     });
 
     if (session.gameState.players.length == conGeneral.maxPlayers) {
@@ -400,15 +406,13 @@ function MaybeEndChoosingPhase(session) {
     for (let i = 0; i < gameState.players.length; i++) {
         const player = gameState.players[i];
 
-        if(player.energy <= 0)
-        {
+        if (player.energy <= 0) {
             gameState.ended = true;
             return;
         }
     }
 
-    if(gameState.turnIndex == conGeneral.numTurns)
-    {
+    if (gameState.turnIndex == conGeneral.numTurns) {
         gameState.ended = true;
     }
 }
