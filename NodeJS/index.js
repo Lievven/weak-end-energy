@@ -67,7 +67,13 @@ app.get("/action", (req, res) => {
     }
 
     if (action == "StartGame") {
-        var session = GetOrCreateSession(user);
+        var session = GetExistingSession(user);
+
+        if (session == null) {
+            res.status(400);
+            res.send("WHAT? Session does not exist for user " + user);
+            return;
+        }
 
         if (session.gameState.turnIndex >= 0) {
             res.status(400);
@@ -103,6 +109,33 @@ app.get("/action", (req, res) => {
         } catch (exc) {
             res.status(400);
             res.send("StageCard " + cardId + " failed w/ " + exc)
+            throw exc;
+        }
+    }
+
+    if (action == "ChooseActivity") {
+        var cardId = req.query.cardId;
+
+        if (cardId == null || cardId == "") {
+            res.status(400);
+            res.send("WHAT? No cardId set.");
+            return;
+        }
+
+        var session = GetExistingSession(user);
+
+        if (session == null) {
+            res.status(400);
+            res.send("WHAT? No Session found.");
+            return;
+        }
+
+        try {
+            ChooseCard(session, user, cardId);
+            res.send(JSON.stringify(session.gameState));
+        } catch (exc) {
+            res.status(400);
+            res.send("ChooseActivity " + cardId + " failed w/ " + exc)
             throw exc;
         }
     }
@@ -226,6 +259,8 @@ function AddPlayerToSession(session, user) {
         lastStagedCard: null,
         completedPersonalTasks: 0,
         stagedCard: null,
+        chosenCard: null,
+        lastChosenCard: null,
         joinDate: Date.now()
     });
 
@@ -298,4 +333,140 @@ function MaybeEndStagingPhase(session) {
 
     gameState.phaseIndex += 1;
     gameState.version += 1;
+}
+
+function ChooseCard(session, user, cardId) {
+    console.log("ChooseCard " + cardId + " for player " + user);
+    var gameState = session.gameState;
+
+    if (gameState.phaseIndex != 1) {
+        throw new Error("phaseIndex must be 1, is " + gameState.phaseIndex);
+    }
+
+    var player = gameState.players.find(v => v.name == user);
+
+    if (player == null) {
+        throw new Error("player " + user + " not found");
+    }
+
+    var cardOwner = gameState.players.find(v => v.stagedCard.id == cardId);
+
+    if (cardOwner == null) {
+        throw new Error("noone staged card id " + cardId)
+    }
+
+    var currentChosenCardId = player.chosenCardId;
+
+    if (currentChosenCardId == cardId) return
+
+    player.chosenCard = cardOwner.stagedCard;
+    player.lastChosenCard = cardOwner.stagedCard;
+
+    gameState.version += 1;
+
+    MaybeEndChoosingPhase(session);
+}
+
+function MaybeEndChoosingPhase(session) {
+    if (gameState.phaseIndex != 1) {
+        throw new Error("PhaseIndex must be 1, is " + gameState.phaseIndex);
+    }
+
+    var gameState = session.gameState;
+
+    for (let i = 0; i < gameState.players.length; i++) {
+        const player = gameState.players[i];
+
+        if (player.chosenCard == null) return;
+    }
+
+    for (let i = 0; i < gameState.players.length; i++) {
+        const player = gameState.players[i];
+        const stagedCard = player.stagedCard;
+
+        ApplyCardEffects(player, stagedCard, gameState.players.filter(v => v.chosenCard.id == stagedCard.id));
+    }
+
+    for (let i = 0; i < gameState.players.length; i++) {
+        const player = gameState.players[i];
+        player.chosenCard = null;
+        player.stagedCard = null;
+    }
+
+    gameState.version += 1;
+    gameState.turnIndex += 1;
+    gameState.phaseIndex = 0;
+
+    for (let i = 0; i < gameState.players.length; i++) {
+        const player = gameState.players[i];
+
+        if(player.energy <= 0)
+        {
+            gameState.ended = true;
+            return;
+        }
+    }
+
+    if(gameState.turnIndex == conGeneral.numTurns)
+    {
+        gameState.ended = true;
+    }
+}
+
+function ApplyCardEffects(owner, card, playerTargets) {
+    if (playerTargets.length == 0) {
+        owner.hand.push(card);
+        return;
+    }
+
+    var evaluateIndividually = card.type == "personal";
+
+    if (evaluateIndividually) {
+        var anyDiscard = false;
+        for (let playerIndex = 0; playerIndex < playerTargets.length; playerIndex++) {
+            const player = playerTargets[playerIndex];
+            player.lastDiceResult = throwDice(1, 6);
+            var cardEffect = card.effects.find(v => v.diceResultMin <= player.lastDiceResult && v.diceResultMax >= player.lastDiceResult);
+
+            if (cardEffect == null) {
+                throw new Error("No effect for result " + player.lastDiceResult + " for card " + card.name);
+            }
+
+            player.energy += cardEffect.energyChange;
+            if (cardEffect.discardCard) {
+                anyDiscard = true;
+            }
+        }
+
+        if (!anyDiscard) {
+            owner.hand.push(card);
+        }
+    }
+    else {
+        let diceSum = 0;
+        for (let playerIndex = 0; playerIndex < playerTargets.length; playerIndex++) {
+            const player = playerTargets[playerIndex];
+            player.lastDiceResult = throwDice(1, 6);
+            diceSum += player.lastDiceResult;
+        }
+
+        var cardEffect = card.effects.find(v => v.diceResultMin <= diceSum && v.diceResultMax >= diceSum);
+
+        if (cardEffect == null) {
+            throw new Error("No effect for result " + player.lastDiceResult + " for card " + card.name);
+        }
+
+        for (let playerIndex = 0; playerIndex < playerTargets.length; playerIndex++) {
+            const player = playerTargets[playerIndex];
+            player.energy += cardEffect.energyChange;
+        }
+
+        if (!cardEffect.discardCard) {
+            owner.hand.push(card);
+        }
+    }
+}
+
+function throwDice(minInclusive, maxInclusive) {
+    return minInclusive + Math.floor(Math.random() * (maxInclusive - minInclusive + 1));
 }
