@@ -10,7 +10,7 @@ var url = "localhost:8081"
 @onready var http = HTTPRequest.new()
 
 var previous_turn = -1
-var previous_version = 0
+var previous_version = -1
 var user_id = "Player0"
 
 func _ready() -> void:
@@ -20,7 +20,7 @@ func _ready() -> void:
 	
 	
 func poll():
-	http.request("http://" + url + "/poll?userid=" + user_id + "&knownVersion=" + str(previous_version))
+	http.request("http://" + url + "/poll?user=" + user_id + "&knownVersion=" + str(previous_version))
 
 
 func stage_card(card_id):
@@ -38,8 +38,10 @@ func start_game():
 	"&action=StartGame")
 	
 func _on_request_completed(result, response_code, headers, body) -> void:
+	print(response_code)
 	if response_code != 200:
-		push_error("Invalid request: ", response_code, " -> ", body)
+		push_error("Invalid request: ", response_code, " -> ", body.get_string_from_utf8())
+		return
 	
 	var json = JSON.parse_string(body.get_string_from_utf8())
 	
@@ -55,7 +57,7 @@ func _on_request_completed(result, response_code, headers, body) -> void:
 	for player in json["players"]:
 		if player["name"] != user_id:
 			continue
-			
+		
 		update_player.emit(player)
 		
 		if previous_turn != json["turnIndex"]:
