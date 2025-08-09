@@ -1,51 +1,72 @@
-[gd_scene load_steps=2 format=3 uid="uid://dcm74fvn1poc"]
+[gd_scene load_steps=6 format=3 uid="uid://dcm74fvn1poc"]
 
-[ext_resource type="Texture2D" uid="uid://dfkwrdfqyptjn" path="res://cards/placeholder_card.png" id="1_ivai2"]
+[ext_resource type="Script" uid="uid://bxgd825afvwi5" path="res://cards/card.gd" id="1_jsqqk"]
+[ext_resource type="Texture2D" uid="uid://cyge5do57idsb" path="res://cards/frame_bonus.png" id="1_nwofj"]
+[ext_resource type="Texture2D" uid="uid://vur5v28gtvq" path="res://cards/trashbag.png" id="2_4k7q8"]
+[ext_resource type="LabelSettings" uid="uid://dryivlepfdbbx" path="res://resources/card_title_label.tres" id="2_f61jr"]
+[ext_resource type="LabelSettings" uid="uid://dk55l3b0e2oql" path="res://resources/card_tesxt_label.tres" id="3_f61jr"]
 
 [node name="Card" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-offset_left = 120.0
-offset_top = 167.0
-offset_right = 120.0
-offset_bottom = 167.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -576.0
+offset_right = -576.0
+grow_horizontal = 2
+script = ExtResource("1_jsqqk")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_ivai2")
+[node name="BackgroundFrame" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -448.0
+offset_right = 448.0
+offset_bottom = 1280.0
+grow_horizontal = 2
+texture = ExtResource("1_nwofj")
 
 [node name="Label" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -11.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "Unclogg the Toilet"
+layout_mode = 0
+offset_left = -375.0
+offset_top = 562.0
+offset_right = 373.0
+offset_bottom = 699.0
+text = "A clogged Toilet"
+label_settings = ExtResource("2_f61jr")
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-offset_left = -100.0
-offset_top = 28.0
-offset_right = 100.0
-offset_bottom = 148.0
+offset_left = -360.0
+offset_top = 732.0
+offset_right = 356.0
+offset_bottom = 1189.0
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "0-2: Task failed"
+text = "1: Not now.  0"
+label_settings = ExtResource("3_f61jr")
 
 [node name="Label2" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "3-6: -4"
+text = "2-3: It stinks.  -3"
+label_settings = ExtResource("3_f61jr")
 
 [node name="Label3" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "7-14: -2"
+text = "4-6: Wasn’t that bad.  -1"
+label_settings = ExtResource("3_f61jr")
 
-[node name="Label4" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-text = "15+: -1"
+[node name="ContentImage" type="TextureRect" parent="."]
+layout_mode = 1
+offset_left = -369.0
+offset_top = 81.0
+offset_right = 362.0
+offset_bottom = 542.0
+texture = ExtResource("2_4k7q8")
+
+[connection signal="gui_input" from="VBoxContainer/Label3" to="." method="_on_label_3_gui_input"]

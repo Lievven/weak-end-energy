@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://e8bhwjkcn0ir"]
+[gd_scene load_steps=4 format=3 uid="uid://e8bhwjkcn0ir"]
 
-[ext_resource type="PackedScene" uid="uid://dwrs03074tgo1" path="res://board_and_clock.fbx" id="2_vslsf"]
+[ext_resource type="PackedScene" uid="uid://dwansns35h8w4" path="res://card_ui/card_hand.tscn" id="2_n0yoy"]
+[ext_resource type="PackedScene" uid="uid://dwrs03074tgo1" path="res://resources/board_and_clock.fbx" id="2_vslsf"]
 
 [sub_resource type="Environment" id="Environment_vslsf"]
 ambient_light_color = Color(1, 1, 1, 1)
@@ -15,3 +16,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.34094, 0, -0.923387)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_vslsf")
+
+[node name="CardHand" parent="." instance=ExtResource("2_n0yoy")]
