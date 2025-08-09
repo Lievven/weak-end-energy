@@ -1,3 +1,15 @@
-[gd_scene format=3 uid="uid://e8bhwjkcn0ir"]
+[gd_scene load_steps=2 format=3 uid="uid://e8bhwjkcn0ir"]
+
+[ext_resource type="PackedScene" uid="uid://dcm74fvn1poc" path="res://cards/card.tscn" id="1_svv5s"]
 
 [node name="JansScene" type="Node3D"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Card" parent="Control" instance=ExtResource("1_svv5s")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
