@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dcm74fvn1poc"]
+[gd_scene load_steps=23 format=3 uid="uid://dcm74fvn1poc"]
 
 [ext_resource type="Script" uid="uid://bxgd825afvwi5" path="res://cards/card.gd" id="1_jsqqk"]
 [ext_resource type="Texture2D" uid="uid://cyge5do57idsb" path="res://cards/frame_bonus.png" id="1_nwofj"]
@@ -7,6 +7,21 @@
 [ext_resource type="LabelSettings" uid="uid://dk55l3b0e2oql" path="res://resources/card_tesxt_label.tres" id="3_f61jr"]
 [ext_resource type="Texture2D" uid="uid://ccyr8v16dvu6e" path="res://cards/frame_group.png" id="3_nwj5s"]
 [ext_resource type="Texture2D" uid="uid://bcm13uw51be23" path="res://cards/frame_single.png" id="4_hel13"]
+[ext_resource type="Texture2D" uid="uid://bljq6of6hfc4o" path="res://cards/bath.png" id="5_auvip"]
+[ext_resource type="Texture2D" uid="uid://d31mi7kaffy37" path="res://cards/coffee.png" id="5_rhob6"]
+[ext_resource type="Texture2D" uid="uid://cp2la0lijlx6b" path="res://cards/exercise.png" id="6_1dpkt"]
+[ext_resource type="Texture2D" uid="uid://cueffubtjqwfs" path="res://cards/dishes.png" id="8_iijrc"]
+[ext_resource type="Texture2D" uid="uid://diij8wi3ey8ku" path="res://cards/faith.png" id="9_8o0a7"]
+[ext_resource type="Texture2D" uid="uid://0bggch3uqknj" path="res://cards/food.png" id="10_eyey0"]
+[ext_resource type="Texture2D" uid="uid://dd007x3w2edkn" path="res://cards/groceries.png" id="11_ijffw"]
+[ext_resource type="Texture2D" uid="uid://cc7v1tppclb0g" path="res://cards/hoover.png" id="12_p6473"]
+[ext_resource type="Texture2D" uid="uid://b0p0uv7rwq14p" path="res://cards/book.png" id="13_mpdjx"]
+[ext_resource type="Texture2D" uid="uid://cmm1mbfbwsi03" path="res://cards/cleaning.png" id="14_61onk"]
+[ext_resource type="Texture2D" uid="uid://c1y7cvc3w7t4w" path="res://cards/laundry.png" id="15_1wco4"]
+[ext_resource type="Texture2D" uid="uid://d2rlv2k37m63a" path="res://cards/movies.png" id="16_vttq4"]
+[ext_resource type="Texture2D" uid="uid://pxtujwqarro5" path="res://cards/music.png" id="17_qfw1p"]
+[ext_resource type="Texture2D" uid="uid://dejks2t48isr1" path="res://cards/plants.png" id="18_1y3j1"]
+[ext_resource type="Texture2D" uid="uid://1sk1p0ukrju0" path="res://cards/sleep.png" id="19_hd4ey"]
 
 [node name="Card" type="Control"]
 layout_mode = 3
@@ -18,7 +33,22 @@ offset_right = -576.0
 grow_horizontal = 2
 script = ExtResource("1_jsqqk")
 sprites = Dictionary[String, Texture]({
-"A clogged Toilet": ExtResource("2_4k7q8"),
+"Clean Your Room": ExtResource("14_61onk"),
+"Coffee Break": ExtResource("5_rhob6"),
+"Cooking Food": ExtResource("10_eyey0"),
+"Do Sports": ExtResource("6_1dpkt"),
+"Do the Dishes": ExtResource("8_iijrc"),
+"Do the Laundry": ExtResource("15_1wco4"),
+"Grocery Shopping": ExtResource("11_ijffw"),
+"Meditation": ExtResource("9_8o0a7"),
+"Music for the Soul": ExtResource("17_qfw1p"),
+"Short Nap": ExtResource("19_hd4ey"),
+"Study for a Test": ExtResource("13_mpdjx"),
+"Take a Nice Bath": ExtResource("5_auvip"),
+"Taking Out the Trash": ExtResource("2_4k7q8"),
+"Vacuuming the Flat": ExtResource("12_p6473"),
+"Watch a Movie": ExtResource("16_vttq4"),
+"Water the Plants": ExtResource("18_1y3j1"),
 "bonus": ExtResource("1_nwofj"),
 "group": ExtResource("3_nwj5s"),
 "personal": ExtResource("4_hel13")

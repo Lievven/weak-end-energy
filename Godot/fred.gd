@@ -60,6 +60,8 @@ func _on_request_completed(result, response_code, headers, body) -> void:
 		
 		update_player.emit(player)
 		
+		print(player["hand"])
+		
 		if previous_turn != json["turnIndex"]:
 			previous_turn = json["turnIndex"]
 			update_cards.emit(player["hand"])
