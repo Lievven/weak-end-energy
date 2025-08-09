@@ -14,7 +14,7 @@ var conGeneral = {
     maxPlayers: 4,
     groupTasksCompletionTarget: 8,
     numMaxSessions: 10,
-    playerTimeoutMs : 25000,
+    playerTimeoutMs: 25000,
 }
 conGeneral.cardStackSize = conGeneral.numTurns * conGeneral.maxPlayers + conGeneral.numCardsOnHand * conGeneral.maxPlayers;
 
@@ -47,6 +47,15 @@ app.get("/poll", (req, res) => {
     }
 
     var session = GetOrCreateSession(user);
+
+    var knownVersion = req.query.knownVersion;
+
+    if(session.version == knownVersion)
+    {
+        res.send("");
+        return;
+    }
+
     res.send(JSON.stringify(session.gameState));
 });
 
