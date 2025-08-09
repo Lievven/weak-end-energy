@@ -1,5 +1,4 @@
 const express = require('express');
-const { version } = require('os');
 const app = express();
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
@@ -12,7 +11,10 @@ var conGeneral = {
     numTurns: 12,
     startEnergy: 10,
     numCardsOnHand: 4,
-    maxPlayers: 1
+    maxPlayers: 4,
+    cardStackSize : 12 * 4,
+    groupTasksCompletionTarget : 8,
+    numMaxSessions : 10,
 }
 
 var constants = {};
@@ -36,26 +38,16 @@ const sessions = [];
 
 app.get("/poll", (req, res) => {
     var user = req.query.user
-    //var session = GetOrCreateSession();
 
-    var dummyState = {
-        turnIndex: 0,
-        phaseIndex: 0,
-        players: [
-            GenerateRandomPlayer(0, 1 + 0 * conGeneral.numCardsOnHand),
-            GenerateRandomPlayer(1, 1 + 1 * conGeneral.numCardsOnHand),
-            GenerateRandomPlayer(2, 1 + 2 * conGeneral.numCardsOnHand),
-            GenerateRandomPlayer(3, 1 + 3 * conGeneral.numCardsOnHand),
-        ],
-        completedGroupTasks : 0,
-        ended : false,
-        version : 1,
-        cardStack: [
-            GenerateRandomCard(1 + 4* conGeneral.numCardsOnHand)
-        ]
+    if(user == null || user == "")
+    {
+        res.status(400);
+        res.send("WHAT? No user set.");
+        return;
     }
 
-    res.send(JSON.stringify(dummyState));
+    var session = GetOrCreateSession();
+    res.send(JSON.stringify(session.gameState));
 });
 
 app.use((req, res) => {
@@ -69,27 +61,126 @@ app.listen(port, () => {
     console.log('Press Ctrl+C to quit.');
 });
 
-function GenerateRandomCard(cardId) {
-    var cardInstance = structuredClone(constants.cards[0]);
-    cardInstance.id = cardId
-    return cardInstance;
-}
+function GenerateCardStack(targetSize)
+{
+    var cardStack = [];
 
-function GenerateRandomPlayer(number, cardId) {
-    var playerCards = [];
-    for (let index = 0; index < conGeneral.numCardsOnHand; index++) {
-        playerCards.push(GenerateRandomCard(cardId));
-        cardId+=1
+    while(cardStack.length < targetSize)
+    {
+        var oneStack = GenerateFullStack(cardStack.length + 1);
+        cardStack = cardStack.concat(oneStack);
     }
 
-    return {
-        name: "Player" + number,
+    console.log("MAKE CARD STACK, size is "+cardStack.length)
+    return cardStack;
+}
+
+function GenerateFullStack(cardId) {
+    var cards = [];
+
+    constants.cards.forEach(card => {
+
+        for (let i = 0; i < card.deckCount; i++) {
+
+            var cardInstance = structuredClone(card);
+            cardInstance.id = cardId;
+            cards.push(cardInstance);
+        }
+    });
+
+    shuffle(cards);
+    return cards;
+}
+
+function shuffle(array) {
+  let currentIndex = array.length;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+}
+
+function GetOrCreateSession(user)
+{
+    sessions.forEach(session => {
+        session.gameState.players.forEach(player => {
+            if ( player.name == user)
+            {
+                return session;
+            }
+        });
+    });
+
+    // check if the last existing session is still unstarted:
+
+    if(sessions.length > 0)
+    {
+        var lastSession = sessions[sessions.length-1];
+
+        if(lastSession.gameState == null || lastSession.gameState.turnIndex < 0)
+        {
+            AddPlayerToSession(lastSession,user);
+            return lastSession;
+        }
+    }
+
+    //no suitable session found, create new session
+
+    //delete oldest session if capacity reached
+    if(sessions.length>conGeneral.numMaxSessions)
+    {
+        sessions.splice(0,1);
+    }
+
+    var newSession = []
+    newSession.gameState = {
+        turnIndex: -1,
+        phaseIndex: 0,
+        players: [],
+        completedGroupTasks : 0,
+        ended : false,
+        version : 1,
+        cardStack: GenerateCardStack(conGeneral.cardStackSize)
+    }
+
+    AddPlayerToSession(newSession, user);
+    sessions.push(newSession);
+    return newSession
+}
+
+function AddPlayerToSession(session, user)
+{
+    session.gameState.players.push({
+        name: user,
         energy: conGeneral.startEnergy,
-        hand: playerCards,
+        hand: [],
         lastDiceResult: 0,
         lastCardIdSelected: null,
         completedPersonalTasks: 0,
         stagedCard : null,
         joinDate : Date.now()
+    });
+
+    if(session.gameState.players.length == conGeneral.maxPlayers)
+    {
+        StartGame(session);
     }
+}
+
+function StartGame(session)
+{
+    console.log("START SESSION ")
+    session.gameState.turnIndex = 1;
+
+    session.gameState.players.forEach(player =>{
+        player.card = session.gameState.cardStack.splice(0,conGeneral.numCardsOnHand);
+    });
 }
