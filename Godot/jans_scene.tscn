@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://e8bhwjkcn0ir"]
 
-[ext_resource type="PackedScene" uid="uid://dwansns35h8w4" path="res://card_hand.tscn" id="2_n0yoy"]
+[ext_resource type="PackedScene" uid="uid://dwansns35h8w4" path="res://card_ui/card_hand.tscn" id="2_n0yoy"]
 [ext_resource type="PackedScene" uid="uid://dwrs03074tgo1" path="res://resources/board_and_clock.fbx" id="2_vslsf"]
 
 [sub_resource type="Environment" id="Environment_vslsf"]

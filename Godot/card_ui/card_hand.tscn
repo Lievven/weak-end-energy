@@ -1,0 +1,57 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwansns35h8w4"]
+
+[ext_resource type="PackedScene" uid="uid://0xtia38tcgne" path="res://card_ui/card_slot.tscn" id="1_5km37"]
+[ext_resource type="Script" uid="uid://djbo7wed80ird" path="res://card_ui/card_hand.gd" id="1_swcsj"]
+
+[node name="CardHand" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_swcsj")
+
+[node name="SlotContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Separator" type="Control" parent="SlotContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="CardSlot1" parent="SlotContainer" node_paths=PackedStringArray("card_hand") instance=ExtResource("1_5km37")]
+layout_mode = 2
+card_hand = NodePath("../..")
+
+[node name="Separator2" type="Control" parent="SlotContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="CardSlot2" parent="SlotContainer" node_paths=PackedStringArray("card_hand") instance=ExtResource("1_5km37")]
+layout_mode = 2
+card_hand = NodePath("../..")
+
+[node name="Separator3" type="Control" parent="SlotContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="CardSlot3" parent="SlotContainer" node_paths=PackedStringArray("card_hand") instance=ExtResource("1_5km37")]
+layout_mode = 2
+card_hand = NodePath("../..")
+
+[node name="Separator4" type="Control" parent="SlotContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="CardSlot4" parent="SlotContainer" node_paths=PackedStringArray("card_hand") instance=ExtResource("1_5km37")]
+layout_mode = 2
+card_hand = NodePath("../..")
+
+[node name="Separator5" type="Control" parent="SlotContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2

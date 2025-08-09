@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://0xtia38tcgne"]
 
-[ext_resource type="Script" uid="uid://dc50veadfdk6u" path="res://card_slot.gd" id="1_jmuc5"]
+[ext_resource type="Script" uid="uid://dc50veadfdk6u" path="res://card_ui/card_slot.gd" id="1_jmuc5"]
 [ext_resource type="PackedScene" uid="uid://dcm74fvn1poc" path="res://cards/card.tscn" id="1_qx3y6"]
 
 [node name="CardSlot" type="Control"]
@@ -19,5 +19,6 @@ offset_left = 0.0
 offset_right = 0.0
 
 [connection signal="resized" from="." to="." method="_on_resized"]
+[connection signal="gui_input" from="Card" to="." method="_on_card_input"]
 [connection signal="mouse_entered" from="Card" to="." method="_on_card_mouse_entered"]
 [connection signal="mouse_exited" from="Card" to="." method="_on_card_mouse_exited"]

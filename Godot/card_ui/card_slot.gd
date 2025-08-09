@@ -1,12 +1,17 @@
 extends Control
 
+class_name CardSlot
+
 @export var maximum_screen_percentage = 1.02
 @export var minimum_screen_percentage = 0.54
 @export var card_shift_weight = 5
 
+@export var card_hand: CardHand
+
 var target_height = 0
 var current_height = 0
 
+var card_active = true
 
 func _ready() -> void:
 	target_height = minimum_screen_percentage
@@ -14,7 +19,10 @@ func _ready() -> void:
 	
 
 func _process(delta) -> void:
-	current_height = lerpf(current_height, target_height, card_shift_weight * delta)
+	var target = target_height
+	if not card_active:
+		target = -0.1
+	current_height = lerpf(current_height, target, card_shift_weight * delta)
 	move_card_up_percentage(current_height)
 
 
@@ -33,3 +41,9 @@ func _on_card_mouse_entered() -> void:
 
 func _on_card_mouse_exited() -> void:
 	target_height = minimum_screen_percentage
+	
+	
+func _on_card_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			card_hand.disable_cards(false)

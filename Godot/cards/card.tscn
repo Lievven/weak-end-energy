@@ -69,5 +69,4 @@ offset_right = 362.0
 offset_bottom = 542.0
 texture = ExtResource("2_4k7q8")
 
-[connection signal="gui_input" from="." to="." method="_on_input"]
 [connection signal="gui_input" from="VBoxContainer/Label3" to="." method="_on_label_3_gui_input"]
