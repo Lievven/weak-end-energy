@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://dvs3j52kt170x"]
+
+[node name="Denis" type="Node3D"]
+transform = Transform3D(0.774128, 0.63303, 0, -0.63303, 0.774128, 0, 0, 0, 1, 0, 0, 0)
