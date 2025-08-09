@@ -12,10 +12,10 @@ var conGeneral = {
     startEnergy: 10,
     numCardsOnHand: 4,
     maxPlayers: 4,
-    cardStackSize : 12 * 4,
-    groupTasksCompletionTarget : 8,
-    numMaxSessions : 10,
+    groupTasksCompletionTarget: 8,
+    numMaxSessions: 10,
 }
+conGeneral.cardStackSize = conGeneral.numTurns * conGeneral.maxPlayers + conGeneral.numCardsOnHand * conGeneral.maxPlayers;
 
 var constants = {};
 
@@ -39,8 +39,7 @@ const sessions = [];
 app.get("/poll", (req, res) => {
     var user = req.query.user
 
-    if(user == null || user == "")
-    {
+    if (user == null || user == "") {
         res.status(400);
         res.send("WHAT? No user set.");
         return;
@@ -53,8 +52,7 @@ app.get("/poll", (req, res) => {
 app.get("/action", (req, res) => {
     var user = req.query.user
 
-    if(user == null || user == "")
-    {
+    if (user == null || user == "") {
         res.status(400);
         res.send("WHAT? No user set.");
         return;
@@ -62,19 +60,16 @@ app.get("/action", (req, res) => {
 
     var action = req.query.action;
 
-    if(action == null || action == "")
-    {
+    if (action == null || action == "") {
         res.status(400);
         res.send("WHAT? No action set.");
         return;
     }
 
-    if (action == "StartGame") 
-    {
+    if (action == "StartGame") {
         var session = GetOrCreateSession(user);
 
-        if(session.gameState.turnIndex>=0)
-        {
+        if (session.gameState.turnIndex >= 0) {
             res.status(400);
             res.send("WHAT? Session has already started.");
             return;
@@ -83,6 +78,33 @@ app.get("/action", (req, res) => {
         StartGame(session);
         res.send(JSON.stringify(session.gameState));
         return;
+    }
+
+    if (action == "StageCard") {
+        var cardId = req.query.cardId;
+
+        if (cardId == null || cardId == "") {
+            res.status(400);
+            res.send("WHAT? No cardId set.");
+            return;
+        }
+
+        var session = GetExistingSession(user);
+
+        if (session == null) {
+            res.status(400);
+            res.send("WHAT? No Session found.");
+            return;
+        }
+
+        try {
+            StageCard(session, user, cardId);
+            res.send(JSON.stringify(session.gameState));
+        } catch (exc) {
+            res.status(400);
+            res.send("StageCard " + cardId + " failed w/ " + exc)
+            throw exc;
+        }
     }
 });
 
@@ -97,12 +119,10 @@ app.listen(port, () => {
     console.log('Press Ctrl+C to quit.');
 });
 
-function GenerateCardStack(targetSize)
-{
+function GenerateCardStack(targetSize) {
     var cardStack = [];
 
-    while(cardStack.length < targetSize)
-    {
+    while (cardStack.length < targetSize) {
         var oneStack = GenerateFullStack(cardStack.length + 1);
         cardStack = cardStack.concat(oneStack);
     }
@@ -128,46 +148,34 @@ function GenerateFullStack(cardId) {
 }
 
 function shuffle(array) {
-  let currentIndex = array.length;
+    let currentIndex = array.length;
 
-  // While there remain elements to shuffle...
-  while (currentIndex != 0) {
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
 
-    // Pick a remaining element...
-    let randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+        // Pick a remaining element...
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
 
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-  }
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+    }
 }
 
-function GetOrCreateSession(user)
-{
-    for (let sessionIndex = 0; sessionIndex < sessions.length; sessionIndex++)
-    {
-        const session = sessions[sessionIndex];
-        for (let playerIndex = 0; playerIndex < session.gameState.players.length; playerIndex++) {
-            const player = session.gameState.players[playerIndex];
-            if ( player.name == user)
-            {
-
-                return session;
-            }
-        }
-        
+function GetOrCreateSession(user) {
+    var existingSession = GetExistingSession();
+    if (existingSession != null) {
+        return existingSession;
     }
 
     // check if the last existing session is still unstarted:
 
-    if(sessions.length > 0)
-    {
-        var lastSession = sessions[sessions.length-1];
+    if (sessions.length > 0) {
+        var lastSession = sessions[sessions.length - 1];
 
-        if(lastSession.gameState == null || lastSession.gameState.turnIndex < 0)
-        {
-            AddPlayerToSession(lastSession,user);
+        if (lastSession.gameState == null || lastSession.gameState.turnIndex < 0) {
+            AddPlayerToSession(lastSession, user);
             return lastSession;
         }
     }
@@ -175,9 +183,8 @@ function GetOrCreateSession(user)
     //no suitable session found, create new session
 
     //delete oldest session if capacity reached
-    if(sessions.length>conGeneral.numMaxSessions)
-    {
-        sessions.splice(0,1);
+    if (sessions.length > conGeneral.numMaxSessions) {
+        sessions.splice(0, 1);
     }
 
     var newSession = []
@@ -185,9 +192,9 @@ function GetOrCreateSession(user)
         turnIndex: -1,
         phaseIndex: 0,
         players: [],
-        completedGroupTasks : 0,
-        ended : false,
-        version : 1,
+        completedGroupTasks: 0,
+        ended: false,
+        version: 1,
         cardStack: GenerateCardStack(conGeneral.cardStackSize)
     }
 
@@ -196,35 +203,99 @@ function GetOrCreateSession(user)
     return newSession
 }
 
-function AddPlayerToSession(session, user)
-{
+function GetExistingSession(user) {
+    for (let sessionIndex = 0; sessionIndex < sessions.length; sessionIndex++) {
+        const session = sessions[sessionIndex];
+        for (let playerIndex = 0; playerIndex < session.gameState.players.length; playerIndex++) {
+            const player = session.gameState.players[playerIndex];
+            if (player.name == user) {
+                return session;
+            }
+        }
+    }
+
+    return null;
+}
+
+function AddPlayerToSession(session, user) {
     session.gameState.players.push({
         name: user,
         energy: conGeneral.startEnergy,
         hand: [],
         lastDiceResult: 0,
-        lastCardIdSelected: null,
+        lastStagedCard: null,
         completedPersonalTasks: 0,
-        stagedCard : null,
-        joinDate : Date.now()
+        stagedCard: null,
+        joinDate: Date.now()
     });
 
-    if(session.gameState.players.length == conGeneral.maxPlayers)
-    {
+    if (session.gameState.players.length == conGeneral.maxPlayers) {
         StartGame(session);
     }
 }
 
-function StartGame(session)
-{
-    console.log("Start Game with "+session.gameState.players.length+" players.");
+function StartGame(session) {
+    console.log("Start Game with " + session.gameState.players.length + " players.");
 
     session.gameState.turnIndex = 0;
 
-    session.gameState.players.forEach(player =>
-    {
-        player.hand = session.gameState.cardStack.splice(0,conGeneral.numCardsOnHand);
+    session.gameState.players.forEach(player => {
+        player.hand = session.gameState.cardStack.splice(0, conGeneral.numCardsOnHand);
     });
 
     session.gameState.version += 1;
+}
+
+function StageCard(session, user, cardId) {
+    console.log("Stage Card " + cardId + " for player " + user);
+    var gameState = session.gameState;
+
+    if (gameState.phaseIndex != 0) {
+        throw new Error("phaseIndex must be 0");
+    }
+
+    var player = gameState.players.find(v => v.name == user);
+
+    if (player == null) {
+        throw new Error("player " + user + " not found");
+    }
+
+    var cardIndex = player.hand.findIndex(v => v.cardId == id)
+
+    if (cardIndex == -1) {
+        throw new Error("card " + cardId + " not found in user hand " + user);
+    }
+
+    var prevStagedCard = player.stagedCard;
+
+    var card = player.hand[cardIndex];
+    player.stagedCard = card;
+    player.lastStagedCard = card;
+    player.hand.splice(cardIndex, 1);
+
+    if (prevStagedCard != null) {
+        player.hand.push(prevStagedCard);
+    }
+
+    gameState.version += 1;
+
+    MaybeEndStagingPhase(session);
+}
+
+function MaybeEndStagingPhase(session) {
+    var gameState = session.gameState;
+
+    if (gameState.phaseIndex != 0) {
+        throw new Error("PhaseIndex must be 0, is " + gameState.phaseIndex);
+    }
+
+    for (let i = 0; i < gameState.players.length; i++) {
+        const player = gameState.players[i];
+        if (player.stagedCard == null) {
+            return;
+        }
+    }
+
+    gameState.phaseIndex += 1;
+    gameState.version += 1;
 }
