@@ -221,8 +221,9 @@ function StartGame(session)
 
     session.gameState.turnIndex = 0;
 
-    session.gameState.players.forEach(player =>{
-        player.cards = session.gameState.cardStack.splice(0,conGeneral.numCardsOnHand);
+    session.gameState.players.forEach(player =>
+    {
+        player.hand = session.gameState.cardStack.splice(0,conGeneral.numCardsOnHand);
     });
 
     session.gameState.version += 1;
