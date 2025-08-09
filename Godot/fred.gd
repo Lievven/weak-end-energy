@@ -25,7 +25,7 @@ func poll():
 
 func stage_card(card_id):
 	http.request("http://" + url + "/action?user=" + user_id + \
-	"&action=StageCard&cardId=" + card_id)
+	"&action=StageCard&cardId=" + str(card_id))
 	
 	
 func choose_activity(card_id):
