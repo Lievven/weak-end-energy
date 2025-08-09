@@ -217,9 +217,13 @@ function AddPlayerToSession(session, user)
 
 function StartGame(session)
 {
+    console.log("Start Game with "+session.gameState.players.length+" players.");
+
     session.gameState.turnIndex = 0;
 
     session.gameState.players.forEach(player =>{
-        player.card = session.gameState.cardStack.splice(0,conGeneral.numCardsOnHand);
+        player.cards = session.gameState.cardStack.splice(0,conGeneral.numCardsOnHand);
     });
+
+    session.gameState.version += 1;
 }
