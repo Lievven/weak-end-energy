@@ -46,8 +46,44 @@ app.get("/poll", (req, res) => {
         return;
     }
 
-    var session = GetOrCreateSession();
+    var session = GetOrCreateSession(user);
     res.send(JSON.stringify(session.gameState));
+});
+
+app.get("/action", (req, res) => {
+    var user = req.query.user
+
+    if(user == null || user == "")
+    {
+        res.status(400);
+        res.send("WHAT? No user set.");
+        return;
+    }
+
+    var action = req.query.action;
+
+    if(action == null || action == "")
+    {
+        res.status(400);
+        res.send("WHAT? No action set.");
+        return;
+    }
+
+    if (action == "StartGame") 
+    {
+        var session = GetOrCreateSession(user);
+
+        if(session.gameState.turnIndex>=0)
+        {
+            res.status(400);
+            res.send("WHAT? Session has already started.");
+            return;
+        }
+
+        StartGame(session);
+        res.send(JSON.stringify(session.gameState));
+        return;
+    }
 });
 
 app.use((req, res) => {
@@ -71,7 +107,6 @@ function GenerateCardStack(targetSize)
         cardStack = cardStack.concat(oneStack);
     }
 
-    console.log("MAKE CARD STACK, size is "+cardStack.length)
     return cardStack;
 }
 
@@ -110,14 +145,19 @@ function shuffle(array) {
 
 function GetOrCreateSession(user)
 {
-    sessions.forEach(session => {
-        session.gameState.players.forEach(player => {
+    for (let sessionIndex = 0; sessionIndex < sessions.length; sessionIndex++)
+    {
+        const session = sessions[sessionIndex];
+        for (let playerIndex = 0; playerIndex < session.gameState.players.length; playerIndex++) {
+            const player = session.gameState.players[playerIndex];
             if ( player.name == user)
             {
+
                 return session;
             }
-        });
-    });
+        }
+        
+    }
 
     // check if the last existing session is still unstarted:
 
@@ -177,8 +217,7 @@ function AddPlayerToSession(session, user)
 
 function StartGame(session)
 {
-    console.log("START SESSION ")
-    session.gameState.turnIndex = 1;
+    session.gameState.turnIndex = 0;
 
     session.gameState.players.forEach(player =>{
         player.card = session.gameState.cardStack.splice(0,conGeneral.numCardsOnHand);
