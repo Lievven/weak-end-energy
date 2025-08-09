@@ -2,7 +2,12 @@ extends Control
 
 class_name CardHand
 
+@export var card_slot_packed: PackedScene
+@export var separator_size = 10
+
 var cards_enabled = true
+
+var card_slots = []
 
 func disable_cards(enabled = false):
 	cards_enabled = enabled
@@ -12,4 +17,19 @@ func disable_cards(enabled = false):
 
 
 func _ready() -> void:
-	pass
+	Fred.update_cards.connect(update_cards)
+
+func update_cards(cards):
+	for i in range(cards.size()):
+		if i >= card_slots.size():
+			_add_card()
+		card_slots[i].card.generate_card(cards[i])
+
+func _add_card():
+	var new_card = card_slot_packed.instantiate()
+	new_card.card_hand = self
+	card_slots.append(new_card)
+	$SlotContainer.add_child(new_card)
+	var separator = Control.new()
+	separator.custom_minimum_size = Vector2(separator_size, 0)
+	$SlotContainer.add_child(separator)

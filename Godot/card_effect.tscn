@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://dl58c2yy2dyjp"]
+
+[ext_resource type="LabelSettings" uid="uid://dk55l3b0e2oql" path="res://resources/card_tesxt_label.tres" id="1_0uuc3"]
+
+[node name="Effect" type="HBoxContainer"]
+offset_right = 449.0
+offset_bottom = 83.0
+
+[node name="Dice" type="Label" parent="."]
+layout_mode = 2
+text = "1-2:"
+label_settings = ExtResource("1_0uuc3")
+
+[node name="Description" type="Label" parent="."]
+layout_mode = 2
+text = "It Stinks!"
+label_settings = ExtResource("1_0uuc3")
+
+[node name="Bonus" type="Label" parent="."]
+layout_mode = 2
+text = "-1"
+label_settings = ExtResource("1_0uuc3")

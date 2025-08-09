@@ -2,6 +2,8 @@ extends Control
 
 class_name CardSlot
 
+@export var card: Card
+
 @export var maximum_screen_percentage = 1.02
 @export var minimum_screen_percentage = 0.54
 @export var card_shift_weight = 5
@@ -47,3 +49,4 @@ func _on_card_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			card_hand.disable_cards(false)
+			Fred.stage_card(card.card_id)
