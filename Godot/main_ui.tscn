@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkg7n1gl3ow5u"]
+
+[ext_resource type="PackedScene" uid="uid://ehqxfyot76ux" path="res://local_player_info/player_info.tscn" id="1_2ppmm"]
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="local_player_container" parent="." instance=ExtResource("1_2ppmm")]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+offset_top = -100.0
+offset_bottom = 0.0
+grow_vertical = 0
