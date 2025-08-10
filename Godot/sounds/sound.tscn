@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://38nwo1imuxqq" path="res://sounds/effects_player.gd" id="5_k6jen"]
 
 [node name="Sound" type="VBoxContainer" node_paths=PackedStringArray("sfx")]
+visible = false
 custom_minimum_size = Vector2(120, 40)
 offset_right = 125.0
 offset_bottom = 40.0
