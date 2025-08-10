@@ -153,6 +153,10 @@ app.get("/tools/generateConstants", async (req, res) => {
     res.send("regenerated constants!");
 });
 
+app.get("/", async (req, res) => {
+    res.send("thats the index");
+});
+
 app.use((req, res) => {
     console.log("Receive unhandled" + req.method + " at url:" + JSON.stringify(req.url) + " query:" + JSON.stringify(req.query))
 });
