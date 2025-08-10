@@ -1,0 +1,76 @@
+[gd_scene load_steps=5 format=3 uid="uid://de85dukbwipsf"]
+
+[ext_resource type="Script" uid="uid://b54nvg6q1yyjk" path="res://name_edit.gd" id="1_lti8b"]
+[ext_resource type="Script" uid="uid://bcuwmlb45gtum" path="res://menu.gd" id="1_ouk20"]
+
+[sub_resource type="Theme" id="Theme_lti8b"]
+default_font_size = 60
+
+[sub_resource type="Theme" id="Theme_ouk20"]
+default_font_size = 50
+
+[node name="MenuScene" type="Control" node_paths=PackedStringArray("name_edit")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ouk20")
+name_edit = NodePath("VBoxContainer/NameEdit")
+
+[node name="ChooseHost" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 966.0
+offset_top = 592.0
+offset_right = 1135.0
+offset_bottom = 623.0
+text = "Choose Custom Host"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -300.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="NameEdit" type="LineEdit" parent="VBoxContainer"]
+custom_minimum_size = Vector2(700, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+tooltip_text = "Enter your name. Use only _ alongside upper and lowercase letters."
+theme = SubResource("Theme_lti8b")
+text = "NameHere____________"
+alignment = 1
+max_length = 20
+context_menu_enabled = false
+emoji_menu_enabled = false
+shortcut_keys_enabled = false
+script = ExtResource("1_lti8b")
+default_name_prefix = Array[String](["Green", "Blue", "Red", "Yellow", "Purple", "Pink", "White", "Black", "Orange", "Grey", "Magenta", "Turquois", "Burgund", "Beige", "Crimson", "Violet", "Gold", "Silver", "Khaki", "Lime", "Olive", "Teal", "Cyan", "Navy", "Maroon", "Azure", "Chartreuse", "Indigo", "Lavender", "Salmon"])
+default_name_suffix = Array[String](["Opossum", "Elephant", "Lion", "Dragon", "Griffon", "Wolf", "Tiger", "Bear", "Gorilla", "Squirrel", "Rhino", "Crocodile", "Aligator", "Bunny", "Dolphin", "Whale", "Turtle", "Panda", "Owl", "Raptor", "Panther", "Salmon", "Tortoise", "Eagle", "Flamingo", "Shark", "Bee", "Pegasus", "Nessie", "Raven"])
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="StartButton" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_ouk20")
+text = "Start"
+
+[node name="Control2" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="text_changed" from="VBoxContainer/NameEdit" to="VBoxContainer/NameEdit" method="_on_text_changed"]
+[connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
