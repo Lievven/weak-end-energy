@@ -187,7 +187,8 @@ function GenerateFullStack(cardId) {
         for (let i = 0; i < card.deckCount; i++) {
 
             var cardInstance = structuredClone(card);
-            cardInstance.id = cardId;
+            cardInstance.id = "Crd" + cardId;
+            cardId+=1;
             cards.push(cardInstance);
         }
     });
@@ -285,6 +286,10 @@ function AddPlayerToSession(session, user) {
         dtLastPing: Date.now()
     });
 
+    console.log("AddPlayerToSession ("+user+"), playeryount now "+session.gameState.players.length)
+
+    session.gameState.version+=1;
+
     if (session.gameState.players.length == conGeneral.maxPlayers) {
         StartGame(session);
     }
@@ -305,6 +310,10 @@ function StartGame(session) {
 function StageCard(session, user, cardId) {
     console.log("Stage Card " + cardId + " for player " + user);
     var gameState = session.gameState;
+
+    if (gameState.ended) {
+        throw new Error("game has ended");
+    }
 
     if (gameState.phaseIndex != 0) {
         throw new Error("phaseIndex must be 0");
@@ -359,6 +368,10 @@ function MaybeEndStagingPhase(session) {
 function ChooseCard(session, user, cardId) {
     console.log("ChooseCard " + cardId + " for player " + user);
     var gameState = session.gameState;
+
+    if (gameState.ended) {
+        throw new Error("game has ended");
+    }
 
     if (gameState.phaseIndex != 1) {
         throw new Error("phaseIndex must be 1, is " + gameState.phaseIndex);
