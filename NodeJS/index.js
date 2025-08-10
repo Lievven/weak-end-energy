@@ -6,6 +6,7 @@ const dbPath = path.resolve(__dirname, "data/constants.db");
 const conDb = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, err => {
     if (err) console.error("Error while opeining database: " + err)
 });
+const cors = require("cors");
 
 var conGeneral = {
     numTurns: 12,
@@ -18,24 +19,15 @@ var conGeneral = {
 }
 conGeneral.cardStackSize = conGeneral.numTurns * conGeneral.maxPlayers + conGeneral.numCardsOnHand * conGeneral.maxPlayers;
 
-var constants = {};
+let constants = {};
 
-conDb.all("SELECT * FROM cards", (err, rows) => {
-
-    var allCards = rows;
-    conDb.all("SELECT * FROM cardEffects", (err, rows) => {
-
-        var allCardEffects = rows;
-
-        allCards.forEach(card => {
-            card.effects = allCardEffects.filter((e) => e.cardName == card.name);
-        });
-
-        constants.cards = allCards;
-    });
-});
+GenerateConstants();
 
 const sessions = [];
+
+app.use(cors({
+    origin: ["https://jonasmumm.itch.io", "http://localhost:8081", "https://html.itch.zone"]
+}));
 
 app.get("/poll", (req, res) => {
     var user = req.query.user
@@ -56,8 +48,7 @@ app.get("/poll", (req, res) => {
 
     var session = GetExistingSession(user);
 
-    if(session == null || session.version == knownVersion)
-    {
+    if (session == null || session.version == knownVersion) {
         res.send("");
         return;
     }
@@ -155,6 +146,11 @@ app.get("/action", (req, res) => {
             throw exc;
         }
     }
+});
+
+app.get("/tools/generateConstants", async (req, res) => {
+    await GenerateConstants();
+    res.send("regenerated constants!");
 });
 
 app.use((req, res) => {
@@ -488,4 +484,28 @@ function ApplyCardEffects(owner, card, playerTargets) {
 
 function throwDice(minInclusive, maxInclusive) {
     return minInclusive + Math.floor(Math.random() * (maxInclusive - minInclusive + 1));
+}
+
+function GenerateConstants() {
+    var promise = new Promise((resolve, reject) => {
+
+        conDb.all("SELECT * FROM cards", (err, rows) => {
+
+            var allCards = rows;
+            conDb.all("SELECT * FROM cardEffects", (err, rows) => {
+
+                var allCardEffects = rows;
+
+                allCards.forEach(card => {
+                    card.effects = allCardEffects.filter((e) => e.cardName == card.name);
+                });
+
+                constants = {};
+                constants.cards = allCards;
+                resolve();
+            });
+        });
+    });
+
+    return promise;
 }
