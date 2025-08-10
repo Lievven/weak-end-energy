@@ -21,7 +21,7 @@ func set_staging(cardData):
 	
 	card.generate_card(cardData)
 	var scale_factor = 1
-	scale = Vector3.ONE * scale_factor;
+	scale = Vector2.ONE * scale_factor;
 
 func set_choosing(cardData, locally_selected_card_Id):
 	if(cardData == null):
