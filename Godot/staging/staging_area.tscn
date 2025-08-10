@@ -1,0 +1,63 @@
+[gd_scene load_steps=3 format=3 uid="uid://boxlrrifk2hh1"]
+
+[ext_resource type="Script" uid="uid://dxguqdt6uw231" path="res://staging/staging_area_controller.gd" id="1_efrie"]
+[ext_resource type="PackedScene" uid="uid://1qdglknracov" path="res://staging/staging_card_container.tscn" id="2_o7k1v"]
+
+[node name="StagingArea" type="Control" node_paths=PackedStringArray("local_player_card", "remote_player_cards", "choose_phase_result_button")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_efrie")
+local_player_card = NodePath("OwnStagingCardContainer")
+remote_player_cards = [NodePath("OtherPlayer2CardContainer"), NodePath("OtherPlayer3CardContainer"), NodePath("OtherPlayer4CardContainer")]
+choose_phase_result_button = NodePath("BlockingButton")
+
+[node name="BlockingButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="BlockingButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.407843)
+
+[node name="OwnStagingCardContainer" parent="." instance=ExtResource("2_o7k1v")]
+layout_mode = 1
+offset_left = 513.0
+offset_top = 368.0
+offset_right = -514.0
+offset_bottom = -100.0
+isLocalPlayerCard = true
+
+[node name="OtherPlayer3CardContainer" parent="." instance=ExtResource("2_o7k1v")]
+layout_mode = 1
+offset_left = 512.0
+offset_top = 119.0
+offset_right = -515.0
+offset_bottom = -349.0
+
+[node name="OtherPlayer2CardContainer" parent="." instance=ExtResource("2_o7k1v")]
+layout_mode = 1
+offset_left = 246.0
+offset_top = 119.0
+offset_right = -781.0
+offset_bottom = -349.0
+
+[node name="OtherPlayer4CardContainer" parent="." instance=ExtResource("2_o7k1v")]
+layout_mode = 1
+offset_left = 782.0
+offset_top = 119.0
+offset_right = -245.0
+offset_bottom = -349.0

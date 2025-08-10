@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://1qdglknracov"]
+
+[ext_resource type="PackedScene" uid="uid://dcm74fvn1poc" path="res://cards/card.tscn" id="1_0n6p1"]
+[ext_resource type="Script" uid="uid://m4k7bcg3cdf3" path="res://staging/staging_card_container.gd" id="1_qtg4a"]
+
+[node name="StagingCardContainer" type="Control" node_paths=PackedStringArray("card", "choose_button")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1027.0
+offset_bottom = -468.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(64.91, 100.335)
+script = ExtResource("1_qtg4a")
+card = NodePath("Card")
+local_selection_scale = 1.4
+choose_button = NodePath("SelectButton")
+
+[node name="Card" parent="." instance=ExtResource("1_0n6p1")]
+layout_mode = 1
+anchors_preset = 8
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_top = -89.5
+offset_right = -1.0
+offset_bottom = -89.5
+grow_vertical = 2
+scale = Vector2(0.14, 0.14)
+mouse_filter = 2
+
+[node name="SelectButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[connection signal="pressed" from="SelectButton" to="." method="choose_button_pressed"]

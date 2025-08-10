@@ -316,7 +316,7 @@ function StageCard(session, user, cardId) {
         throw new Error("player " + user + " not found");
     }
 
-    var cardIndex = player.hand.findIndex(v => v.cardId == id)
+    var cardIndex = player.hand.findIndex(v => v.id == cardId)
 
     if (cardIndex == -1) {
         throw new Error("card " + cardId + " not found in user hand " + user);
@@ -389,11 +389,11 @@ function ChooseCard(session, user, cardId) {
 }
 
 function MaybeEndChoosingPhase(session) {
+    var gameState = session.gameState;
+    
     if (gameState.phaseIndex != 1) {
         throw new Error("PhaseIndex must be 1, is " + gameState.phaseIndex);
     }
-
-    var gameState = session.gameState;
 
     for (let i = 0; i < gameState.players.length; i++) {
         const player = gameState.players[i];

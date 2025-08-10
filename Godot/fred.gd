@@ -5,6 +5,7 @@ signal new_turn(turn, phase)
 signal update_player(player)
 signal game_ended
 signal update_cards(cards)
+signal game_state_wrapper_changed(v:game_state_wrapper);
 
 var url = "localhost:8081"
 @onready var http = HTTPRequest.new()
@@ -12,6 +13,7 @@ var url = "localhost:8081"
 var previous_turn = -1
 var previous_version = 0
 var user_id = "Player0"
+var current_game_state_wrapper : game_state_wrapper;
 
 func _ready() -> void:
 	add_child(http)
@@ -30,7 +32,7 @@ func stage_card(card_id):
 	
 func choose_activity(card_id):
 	http.request("http://" + url + "/action?user=" + user_id + \
-	"&action=ChooseActivity&cardId=" + card_id)
+	"&action=ChooseActivity&cardId=" + str(card_id))
 	
 	
 func start_game():
@@ -48,6 +50,8 @@ func _on_request_completed(result, response_code, headers, body) -> void:
 	if previous_version == json["version"]:
 		return
 	previous_version = json["version"]
+	
+	current_game_state_wrapper = game_state_wrapper.new(json, user_id);
 	
 	if json["ended"]:
 		game_ended.emit()
@@ -67,3 +71,5 @@ func _on_request_completed(result, response_code, headers, body) -> void:
 			update_cards.emit(player["hand"])
 			
 		break
+		
+	game_state_wrapper_changed.emit(current_game_state_wrapper)

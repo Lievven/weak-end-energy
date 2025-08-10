@@ -9,12 +9,17 @@ var cards_enabled = true
 
 var card_slots = []
 
+func _enter_tree():
+	Fred.game_state_wrapper_changed.connect(game_state_wrapper_changed)
+	
+func _exit_tree():
+	Fred.game_state_wrapper_changed.disconnect(game_state_wrapper_changed)
+
 func disable_cards(enabled = false):
 	cards_enabled = enabled
 	for child in $SlotContainer.get_children(true):
 		if child is CardSlot:
 			child.card_active = enabled
-
 
 func _ready() -> void:
 	Fred.update_cards.connect(update_cards)
@@ -33,3 +38,9 @@ func _add_card():
 	var separator = Control.new()
 	separator.custom_minimum_size = Vector2(separator_size, 0)
 	$SlotContainer.add_child(separator)
+
+func game_state_wrapper_changed(gsw : game_state_wrapper):
+	if !gsw.is_game_started(): return;
+	
+	disable_cards(gsw.get_local_player().stagedCard == null);
+	
