@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://e8bhwjkcn0ir"]
+[gd_scene load_steps=7 format=3 uid="uid://e8bhwjkcn0ir"]
 
 [ext_resource type="PackedScene" uid="uid://dwansns35h8w4" path="res://card_ui/card_hand.tscn" id="2_n0yoy"]
 [ext_resource type="PackedScene" uid="uid://dwrs03074tgo1" path="res://resources/board_and_clock.fbx" id="2_vslsf"]
 [ext_resource type="Script" uid="uid://dfinw6b8dggu" path="res://button.gd" id="3_n0yoy"]
 [ext_resource type="PackedScene" uid="uid://boxlrrifk2hh1" path="res://staging/staging_area.tscn" id="4_xrgg8"]
-[ext_resource type="PackedScene" path="res://menu.tscn" id="5_dwnfq"]
-[ext_resource type="PackedScene" uid="uid://2w1lidmwegnf" path="res://main_ui.tscn" id="6_e6lia"]
+[ext_resource type="PackedScene" uid="uid://de85dukbwipsf" path="res://menu.tscn" id="5_dwnfq"]
 
 [sub_resource type="Environment" id="Environment_vslsf"]
 ambient_light_color = Color(1, 1, 1, 1)
@@ -33,8 +32,5 @@ script = ExtResource("3_n0yoy")
 [node name="StagingArea" parent="." instance=ExtResource("4_xrgg8")]
 
 [node name="MenuScene" parent="." instance=ExtResource("5_dwnfq")]
-
-[node name="UI" parent="." instance=ExtResource("6_e6lia")]
-mouse_filter = 2
 
 [connection signal="pressed" from="CardHand/Button" to="CardHand/Button" method="_on_pressed"]

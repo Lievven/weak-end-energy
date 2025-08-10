@@ -26,8 +26,7 @@ GenerateConstants();
 const sessions = [];
 
 app.use(cors({
-    origin: ["https://jonasmumm.itch.io", "http://localhost:8081", "https://html.itch.zone", "https://lievven.itch.io"]
-    //origin: ["*"]
+    origin: ["https://jonasmumm.itch.io", "http://localhost:8081", "https://html.itch.zone"]
 }));
 
 app.get("/poll", (req, res) => {
@@ -249,10 +248,8 @@ function GetOrCreateSession(user) {
         players: [],
         completedGroupTasks: 0,
         ended: false,
-        won : false,
         version: 1,
-        cardStack: GenerateCardStack(conGeneral.cardStackSize),
-        conGeneral : conGeneral
+        cardStack: GenerateCardStack(conGeneral.cardStackSize)
     }
 
     AddPlayerToSession(newSession, user);
@@ -439,14 +436,12 @@ function MaybeEndChoosingPhase(session) {
 
         if (player.energy <= 0) {
             gameState.ended = true;
-            won = false;
             return;
         }
     }
 
     if (gameState.turnIndex == conGeneral.numTurns) {
         gameState.ended = true;
-        won = true;
         return;
     }
 

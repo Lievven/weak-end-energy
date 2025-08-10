@@ -1,4 +1,3 @@
-class_name CustomMarginContainer
 extends MarginContainer
 
 var max_value = 10
@@ -30,10 +29,6 @@ func increment_counter():
 	counter_value += 1
 	update_counter_display()
 	
-func set_values(value : int, max : int):
-	counter_value = value;
-	max_value = max;
-	update_counter_display();
 
 func update_counter_display():
 	var counter_percentage = counter_value / float(max_value)
