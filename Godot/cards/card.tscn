@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dcm74fvn1poc"]
+[gd_scene load_steps=26 format=3 uid="uid://dcm74fvn1poc"]
 
 [ext_resource type="Script" uid="uid://bxgd825afvwi5" path="res://cards/card.gd" id="1_jsqqk"]
 [ext_resource type="Texture2D" uid="uid://cyge5do57idsb" path="res://cards/frame_bonus.png" id="1_nwofj"]
@@ -22,6 +22,9 @@
 [ext_resource type="Texture2D" uid="uid://pxtujwqarro5" path="res://cards/music.png" id="17_qfw1p"]
 [ext_resource type="Texture2D" uid="uid://dejks2t48isr1" path="res://cards/plants.png" id="18_1y3j1"]
 [ext_resource type="Texture2D" uid="uid://1sk1p0ukrju0" path="res://cards/sleep.png" id="19_hd4ey"]
+[ext_resource type="Texture2D" uid="uid://bbe340p26ueve" path="res://cards/lightbulb.png" id="21_8o0a7"]
+[ext_resource type="Texture2D" uid="uid://bn7cwsdd8llx7" path="res://cards/taxes.png" id="22_eyey0"]
+[ext_resource type="Texture2D" uid="uid://do3q7scqffh3t" path="res://cards/toilet.png" id="23_ijffw"]
 
 [node name="Card" type="Control"]
 layout_mode = 3
@@ -33,6 +36,8 @@ offset_right = -576.0
 grow_horizontal = 2
 script = ExtResource("1_jsqqk")
 sprites = Dictionary[String, Texture]({
+"A Clogged Toilet": ExtResource("23_ijffw"),
+"Change the Lightbulb": ExtResource("21_8o0a7"),
 "Clean Your Room": ExtResource("14_61onk"),
 "Coffee Break": ExtResource("5_rhob6"),
 "Cooking Food": ExtResource("10_eyey0"),
@@ -42,6 +47,7 @@ sprites = Dictionary[String, Texture]({
 "Grocery Shopping": ExtResource("11_ijffw"),
 "Meditation": ExtResource("9_8o0a7"),
 "Music for the Soul": ExtResource("17_qfw1p"),
+"Pay Taxes": ExtResource("22_eyey0"),
 "Short Nap": ExtResource("19_hd4ey"),
 "Study for a Test": ExtResource("13_mpdjx"),
 "Take a Nice Bath": ExtResource("5_auvip"),
