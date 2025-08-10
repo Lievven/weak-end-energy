@@ -13,6 +13,8 @@ grow_vertical = 2
 size_flags_horizontal = 3
 script = ExtResource("1_jmuc5")
 card = NodePath("Card")
+maximum_screen_percentage = 1.1
+minimum_screen_percentage = 0.69
 
 [node name="Card" parent="." instance=ExtResource("1_qx3y6")]
 layout_mode = 1
