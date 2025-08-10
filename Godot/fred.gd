@@ -6,8 +6,8 @@ signal game_ended
 signal update_cards(cards)
 signal game_state_wrapper_changed(v:game_state_wrapper);
 
-#var url = "2cool4bool.com"
-var url = "localhost:8081"
+var url = "2cool4bool.com"
+#var url = "localhost:8081"
 @onready var poll_http = HTTPRequest.new()
 @onready var req_http = HTTPRequest.new()
 
