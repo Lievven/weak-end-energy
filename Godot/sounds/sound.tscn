@@ -1,10 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://cg5t1rhf8p5lj"]
+[gd_scene load_steps=17 format=3 uid="uid://cg5t1rhf8p5lj"]
 
 [ext_resource type="Script" uid="uid://dlpv1ab0ivalf" path="res://sounds/sound.gd" id="1_4m0la"]
 [ext_resource type="AudioStream" uid="uid://2udya127dwic" path="res://sounds/Weak-end-music.mp3" id="1_pa30i"]
 [ext_resource type="Script" uid="uid://c6c245lir2jk7" path="res://sounds/music_stream.gd" id="2_1iar7"]
 [ext_resource type="AudioStream" uid="uid://m4vn3pufklha" path="res://sounds/Weak_end_music_(with_solo).mp3" id="3_somqd"]
 [ext_resource type="Script" uid="uid://38nwo1imuxqq" path="res://sounds/effects_player.gd" id="5_k6jen"]
+[ext_resource type="AudioStream" uid="uid://b4p12m25ba5u1" path="res://sounds/Card_Played_1.mp3" id="6_v50ee"]
+[ext_resource type="AudioStream" uid="uid://bohvdpptvd7xp" path="res://sounds/Card_Played_2.mp3" id="7_6d3dx"]
+[ext_resource type="AudioStream" uid="uid://c7teaybou4ncs" path="res://sounds/Card_Reveal_1.mp3" id="8_tk1rn"]
+[ext_resource type="AudioStream" uid="uid://86rchr2lnc80" path="res://sounds/Card_Reveal_2.mp3" id="9_rp1pf"]
+[ext_resource type="AudioStream" uid="uid://dk6wp16ovmqnp" path="res://sounds/Clock_Ticking_1.mp3" id="10_b5fir"]
+[ext_resource type="AudioStream" uid="uid://fq2aqxkba41k" path="res://sounds/Clock_Ticking_2.mp3" id="11_hyesh"]
+[ext_resource type="AudioStream" uid="uid://xqjsndocnlq4" path="res://sounds/Dice_Roll_1.mp3" id="12_b26eg"]
+[ext_resource type="AudioStream" uid="uid://wkyjomdv3ma8" path="res://sounds/Dice_Roll_2.mp3" id="13_x0j26"]
+[ext_resource type="AudioStream" uid="uid://brponf5hny7ah" path="res://sounds/Dice_Roll_3.mp3" id="14_10ma5"]
+[ext_resource type="AudioStream" uid="uid://cbj5ysfmk8qpc" path="res://sounds/Energy_Decline.mp3" id="15_27dt7"]
+[ext_resource type="AudioStream" uid="uid://c6ehoxt8h02np" path="res://sounds/Energy_Raise.mp3" id="16_24qhj"]
 
 [node name="Sound" type="VBoxContainer" node_paths=PackedStringArray("sfx")]
 visible = false
@@ -35,6 +46,14 @@ music_tracks = Array[AudioStream]([ExtResource("1_pa30i"), ExtResource("3_somqd"
 [node name="EffectsPlayer" type="AudioStreamPlayer" parent="."]
 bus = &"SFX"
 script = ExtResource("5_k6jen")
+card_played = Array[AudioStream]([ExtResource("6_v50ee"), ExtResource("7_6d3dx")])
+card_reveal = Array[AudioStream]([ExtResource("8_tk1rn"), ExtResource("9_rp1pf")])
+turn_over = Array[AudioStream]([ExtResource("10_b5fir"), ExtResource("11_hyesh")])
+die_roll = Array[AudioStream]([ExtResource("12_b26eg"), ExtResource("13_x0j26"), ExtResource("14_10ma5")])
+energy_down = Array[AudioStream]([ExtResource("15_27dt7")])
+energy_up = Array[AudioStream]([ExtResource("16_24qhj")])
+game_lost = Array[AudioStream]([ExtResource("15_27dt7")])
+game_won = Array[AudioStream]([ExtResource("16_24qhj")])
 
 [connection signal="value_changed" from="MusicVolume" to="." method="_on_music_volume_value_changed"]
 [connection signal="value_changed" from="EffectVolume" to="." method="_on_effect_volume_value_changed"]

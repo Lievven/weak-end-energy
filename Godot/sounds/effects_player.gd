@@ -6,6 +6,8 @@ extends AudioStreamPlayer
 @export var die_roll: Array[AudioStream]
 @export var energy_down: Array[AudioStream]
 @export var energy_up: Array[AudioStream]
+@export var game_lost: Array[AudioStream]
+@export var game_won: Array[AudioStream]
 
 
 func play_stream(stream_array):

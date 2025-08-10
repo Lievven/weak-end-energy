@@ -24,21 +24,21 @@ func _ready() -> void:
 	
 	
 func poll():
-	poll_http.request("http://" + url + "/poll?user=" + user_id + "&knownVersion=" + str(previous_version))
+	poll_http.request("https://" + url + "/poll?user=" + user_id + "&knownVersion=" + str(previous_version))
 
 
 func stage_card(card_id):
-	req_http.request("http://" + url + "/action?user=" + user_id + \
+	req_http.request("https://" + url + "/action?user=" + user_id + \
 	"&action=StageCard&cardId=" + str(card_id))
 	
 	
 func choose_activity(card_id):
-	req_http.request("http://" + url + "/action?user=" + user_id + \
+	req_http.request("https://" + url + "/action?user=" + user_id + \
 	"&action=ChooseActivity&cardId=" + str(card_id))
 	
 	
 func start_game():
-	req_http.request("http://" + url + "/action?user=" + user_id + \
+	req_http.request("https://" + url + "/action?user=" + user_id + \
 	"&action=StartGame")
 	
 func _on_request_completed(result, response_code, headers, body) -> void:
