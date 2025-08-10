@@ -10,7 +10,7 @@ var url = "localhost:8081"
 @onready var http = HTTPRequest.new()
 
 var previous_turn = -1
-var previous_version = -1
+var previous_version = 0
 var user_id = "Player0"
 
 func _ready() -> void:

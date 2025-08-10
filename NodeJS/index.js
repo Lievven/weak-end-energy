@@ -40,7 +40,7 @@ app.get("/poll", (req, res) => {
 
     var knownVersion = req.query.knownVersion;
 
-    if (knownVersion == null || knownVersion == "" || knownVersion == 0) {
+    if (knownVersion == null || knownVersion == "" || knownVersion <= 0) {
         var session = GetOrCreateSession(user);
         res.send(JSON.stringify(session.gameState));
         return;
