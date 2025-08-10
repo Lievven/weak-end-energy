@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://b8u1w48dr3lnq"]
+[gd_scene load_steps=4 format=3 uid="uid://b8u1w48dr3lnq"]
 
+[ext_resource type="Script" uid="uid://vbqekdd250st" path="res://players_info/player_ui.gd" id="1_1ei21"]
 [ext_resource type="PackedScene" uid="uid://cce4y2xfg6nxi" path="res://players_info/counters/personal_task_counter/personal_counter.tscn" id="1_82p52"]
 [ext_resource type="PackedScene" uid="uid://j3gnu52tajr8" path="res://players_info/counters/energy_counter/energy_counter.tscn" id="2_1ei21"]
 
-[node name="player_container" type="Control"]
+[node name="player_container" type="Control" node_paths=PackedStringArray("nameLabel", "energyContainer", "personalCounterValue")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +13,11 @@ offset_right = -768.0
 offset_bottom = -568.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_1ei21")
+nameLabel = NodePath("VBoxContainer/HBoxContainer/Label")
+energyContainer = NodePath("VBoxContainer/energy/Sprite2D/MarginContainer")
+personalCounterValue = NodePath("VBoxContainer/HBoxContainer/personal_counter/HBoxContainer/Number")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -20,10 +26,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
@@ -35,7 +43,12 @@ text = "H Player"
 [node name="personal_counter" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_82p52")]
 custom_minimum_size = Vector2(280, 0)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="energy" parent="VBoxContainer" instance=ExtResource("2_1ei21")]
 custom_minimum_size = Vector2(370, 60)
 layout_mode = 2
+mouse_filter = 2
+
+[editable path="VBoxContainer/HBoxContainer/personal_counter"]
+[editable path="VBoxContainer/energy"]

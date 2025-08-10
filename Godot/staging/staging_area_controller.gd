@@ -67,7 +67,8 @@ func ShowChoosePhaseResults(gsw : game_state_wrapper):
 	var local_player = gsw.get_local_player();
 	local_player_card.set_choose_result(local_player.lastStagedCard, gsw);
 	for remote_player_index in range(gsw.get_remote_player_count()):
-		remote_player_cards[remote_player_index].set_choose_result(local_player.lastStagedCard, gsw);
+		var remote_player = gsw.get_remote_player(remote_player_index)
+		remote_player_cards[remote_player_index].set_choose_result(remote_player.lastStagedCard, gsw);
 
 func choose_phase_result_button_pressed():
 	print("CLOSE CLICK")
