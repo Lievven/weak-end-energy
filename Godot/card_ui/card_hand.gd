@@ -11,7 +11,7 @@ var card_slots = []
 
 func _enter_tree():
 	Fred.game_state_wrapper_changed.connect(game_state_wrapper_changed)
-	
+
 func _exit_tree():
 	Fred.game_state_wrapper_changed.disconnect(game_state_wrapper_changed)
 

@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://ehqxfyot76ux"]
+
+[ext_resource type="PackedScene" uid="uid://j3gnu52tajr8" path="res://players_info/counters/energy_counter/energy_counter.tscn" id="1_qvkqh"]
+[ext_resource type="Script" uid="uid://vbqekdd250st" path="res://players_info/player_ui.gd" id="1_sct8u"]
+[ext_resource type="PackedScene" uid="uid://cce4y2xfg6nxi" path="res://players_info/counters/personal_task_counter/personal_counter.tscn" id="2_qedyl"]
+
+[node name="local_player_container" type="Control" node_paths=PackedStringArray("nameLabel", "energyContainer", "personalCounterValue")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -588.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sct8u")
+nameLabel = NodePath("HBoxContainer/player_name")
+energyContainer = NodePath("HBoxContainer/energy_counter/Sprite2D/MarginContainer")
+personalCounterValue = NodePath("HBoxContainer/personal_counter/HBoxContainer/Number")
+isLocalPlayer = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="player_name" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "H Player1"
+
+[node name="energy_counter" parent="HBoxContainer" instance=ExtResource("1_qvkqh")]
+custom_minimum_size = Vector2(290, 0)
+layout_mode = 2
+
+[node name="personal_counter" parent="HBoxContainer" instance=ExtResource("2_qedyl")]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+
+[editable path="HBoxContainer/energy_counter"]
+[editable path="HBoxContainer/personal_counter"]

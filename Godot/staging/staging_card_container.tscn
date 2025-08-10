@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://1qdglknracov"]
+[gd_scene load_steps=4 format=3 uid="uid://1qdglknracov"]
 
 [ext_resource type="PackedScene" uid="uid://dcm74fvn1poc" path="res://cards/card.tscn" id="1_0n6p1"]
 [ext_resource type="Script" uid="uid://m4k7bcg3cdf3" path="res://staging/staging_card_container.gd" id="1_qtg4a"]
+[ext_resource type="PackedScene" uid="uid://ckuxy8opgxbnh" path="res://staging/dice_result_container.tscn" id="3_vtf81"]
 
-[node name="StagingCardContainer" type="Control" node_paths=PackedStringArray("card", "choose_button")]
+[node name="StagingCardContainer" type="Control" node_paths=PackedStringArray("card", "choose_button", "diceResultContainersParent", "diceResultControllers")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,6 +18,8 @@ script = ExtResource("1_qtg4a")
 card = NodePath("Card")
 local_selection_scale = 1.4
 choose_button = NodePath("SelectButton")
+diceResultContainersParent = NodePath("DiceResults")
+diceResultControllers = [NodePath("DiceResults/DiceResultContainer1"), NodePath("DiceResults/DiceResultContainer2"), NodePath("DiceResults/DiceResultContainer3"), NodePath("DiceResults/DiceResultContainer4")]
 
 [node name="Card" parent="." instance=ExtResource("1_0n6p1")]
 layout_mode = 1
@@ -39,5 +42,34 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 flat = true
+
+[node name="DiceResults" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_right = 65.0
+offset_bottom = 50.455
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="DiceResultContainer1" parent="DiceResults" instance=ExtResource("3_vtf81")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="DiceResultContainer2" parent="DiceResults" instance=ExtResource("3_vtf81")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="DiceResultContainer3" parent="DiceResults" instance=ExtResource("3_vtf81")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+
+[node name="DiceResultContainer4" parent="DiceResults" instance=ExtResource("3_vtf81")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
 
 [connection signal="pressed" from="SelectButton" to="." method="choose_button_pressed"]
