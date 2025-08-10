@@ -22,6 +22,24 @@ func get_total_player_count():
 	
 func get_remote_player_count():
 	return get_total_player_count() - 1;
+	
+func get_player_index(user_id) -> int:
+	for i in range(inner_game_state.players.size()):
+		if inner_game_state.players[i].name == user_id : return i
+		
+	return -1;
+
+func get_player_color(userName) -> Color:
+	var index := get_player_index(userName);
+	
+	if index == 0:
+		return Color.BLUE;
+	elif index == 1:
+		return Color.YELLOW;
+	elif index == 2:
+		return Color.GREEN;
+	else:
+		return Color.RED;
 
 #remote player index should be between 0 and 2
 func get_remote_player(remote_player_index:int):
