@@ -442,6 +442,15 @@ function MaybeEndChoosingPhase(session) {
 
     if (gameState.turnIndex == conGeneral.numTurns) {
         gameState.ended = true;
+        return;
+    }
+
+    for (let playerIndex = 0; playerIndex < gameState.players.length; playerIndex++) {
+        const player = gameState.players[playerIndex];
+        while(player.hand.length < conGeneral.numCardsOnHand)
+        {
+            player.hand = player.hand.concat(gameState.cardStack.splice(0,1));
+        }
     }
 }
 
