@@ -29,18 +29,18 @@ environment = SubResource("Environment_vslsf")
 
 [node name="CardHand" parent="." instance=ExtResource("2_n0yoy")]
 
-[node name="Button" type="Button" parent="CardHand"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-text = "Start"
-script = ExtResource("3_n0yoy")
-
 [node name="StagingArea" parent="." instance=ExtResource("4_xrgg8")]
 
 [node name="UI" parent="." instance=ExtResource("6_e6lia")]
 mouse_filter = 2
 
+[node name="Button" type="Button" parent="UI"]
+layout_mode = 0
+offset_right = 46.0
+offset_bottom = 31.0
+text = "Start"
+script = ExtResource("3_n0yoy")
+
 [node name="MenuScene" parent="." instance=ExtResource("5_dwnfq")]
 
-[connection signal="pressed" from="CardHand/Button" to="CardHand/Button" method="_on_pressed"]
+[connection signal="pressed" from="UI/Button" to="UI/Button" method="_on_pressed"]
