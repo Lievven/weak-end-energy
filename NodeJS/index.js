@@ -26,8 +26,14 @@ GenerateConstants();
 const sessions = [];
 
 app.use(cors({
-    origin: ["https://jonasmumm.itch.io", "http://localhost:8081", "https://html.itch.zone"]
+    origin: ["https://jonasmumm.itch.io", "http://localhost:8081", "https://html.itch.zone", "https://lievven.itch.io", "*"]
 }));
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.get("/poll", (req, res) => {
     var user = req.query.user
@@ -418,7 +424,7 @@ function MaybeEndChoosingPhase(session) {
         const player = gameState.players[i];
         const stagedCard = player.stagedCard;
 
-        ApplyCardEffects(player, stagedCard, gameState.players.filter(v => v.chosenCard.id == stagedCard.id));
+        ApplyCardEffects(player, stagedCard, gameState.players.filter(v => v.chosenCard.id == stagedCard.id), gameState);
     }
 
     for (let i = 0; i < gameState.players.length; i++) {
@@ -454,7 +460,7 @@ function MaybeEndChoosingPhase(session) {
     }
 }
 
-function ApplyCardEffects(owner, card, playerTargets) {
+function ApplyCardEffects(owner, card, playerTargets, gameState) {
     if (playerTargets.length == 0) {
         owner.hand.push(card);
         return;
@@ -504,6 +510,13 @@ function ApplyCardEffects(owner, card, playerTargets) {
 
         if (!cardEffect.discardCard) {
             owner.hand.push(card);
+        }
+        else
+        {
+            if(card.type == "group")
+            {
+                gameState.completedGroupTasks += 1
+            }
         }
     }
 }

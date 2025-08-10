@@ -50,3 +50,4 @@ func _on_card_input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			card_hand.disable_cards(false)
 			Fred.stage_card(card.card_id)
+			Sound.sfx.play_stream(Sound.sfx.card_played)
