@@ -46,11 +46,17 @@ app.get("/poll", (req, res) => {
         return;
     }
 
-    var session = GetOrCreateSession(user);
-
     var knownVersion = req.query.knownVersion;
 
-    if(session.version == knownVersion)
+    if (knownVersion == null || knownVersion == "" || knownVersion == 0) {
+        var session = GetOrCreateSession(user);
+        res.send(JSON.stringify(session.gameState));
+        return;
+    }
+
+    var session = GetExistingSession(user);
+
+    if(session == null || session.version == knownVersion)
     {
         res.send("");
         return;
@@ -207,7 +213,7 @@ function shuffle(array) {
 }
 
 function GetOrCreateSession(user) {
-    var existingSession = GetExistingSession();
+    var existingSession = GetExistingSession(user);
     if (existingSession != null) {
         return existingSession;
     }
@@ -220,7 +226,7 @@ function GetOrCreateSession(user) {
         if (lastSession.gameState == null || lastSession.gameState.turnIndex < 0) {
             var allPlayersInSession = lastSession.gameState.players;
 
-            if (allPlayersInSession.length == 0 || allPlayersInSession.every(v => (Date.now() - v.dtLastPing)) < conGeneral.playerTimeoutMs) {
+            if (allPlayersInSession.length == 0 || allPlayersInSession.every(v => (Date.now() - v.dtLastPing) < conGeneral.playerTimeoutMs)) {
                 AddPlayerToSession(lastSession, user);
                 return lastSession;
             }
