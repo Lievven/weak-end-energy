@@ -4,7 +4,7 @@ extends Control
 var music_bus = AudioServer.get_bus_index("Music")
 var sfx_bus = AudioServer.get_bus_index("SFX")
 
-@export var sfx: AudioStreamPlayer
+@export var sfx: SFX_Player
 
 
 func _on_music_volume_value_changed(value: float) -> void:
