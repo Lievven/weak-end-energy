@@ -32,7 +32,7 @@ func stage_card(card_id):
 	
 func choose_activity(card_id):
 	http.request("http://" + url + "/action?user=" + user_id + \
-	"&action=ChooseActivity&cardId=" + card_id)
+	"&action=ChooseActivity&cardId=" + str(card_id))
 	
 	
 func start_game():

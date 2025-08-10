@@ -389,11 +389,11 @@ function ChooseCard(session, user, cardId) {
 }
 
 function MaybeEndChoosingPhase(session) {
+    var gameState = session.gameState;
+    
     if (gameState.phaseIndex != 1) {
         throw new Error("PhaseIndex must be 1, is " + gameState.phaseIndex);
     }
-
-    var gameState = session.gameState;
 
     for (let i = 0; i < gameState.players.length; i++) {
         const player = gameState.players[i];
