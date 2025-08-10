@@ -7,7 +7,7 @@ signal game_ended
 signal update_cards(cards)
 signal game_state_wrapper_changed(v:game_state_wrapper);
 
-var url = "localhost:8081"
+var url = "2cool4bool.com"
 @onready var http = HTTPRequest.new()
 
 var previous_turn = -1
@@ -18,7 +18,6 @@ var current_game_state_wrapper : game_state_wrapper;
 func _ready() -> void:
 	add_child(http)
 	http.request_completed.connect(_on_request_completed)
-	poll()
 	
 	
 func poll():
@@ -47,6 +46,9 @@ func _on_request_completed(result, response_code, headers, body) -> void:
 	
 	var json = JSON.parse_string(body.get_string_from_utf8())
 	
+	if json.is_empty():
+		return
+	
 	if previous_version == json["version"]:
 		return
 	previous_version = json["version"]
@@ -63,8 +65,6 @@ func _on_request_completed(result, response_code, headers, body) -> void:
 			continue
 		
 		update_player.emit(player)
-		
-		print(player["hand"])
 		
 		if previous_turn != json["turnIndex"]:
 			previous_turn = json["turnIndex"]
