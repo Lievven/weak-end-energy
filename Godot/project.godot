@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Fred="*res://fred.gd"
+Sound="*res://sounds/sound.tscn"
 
 [rendering]
 

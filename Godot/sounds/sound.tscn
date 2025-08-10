@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://cg5t1rhf8p5lj"]
+
+[ext_resource type="Script" uid="uid://dlpv1ab0ivalf" path="res://sounds/sound.gd" id="1_4m0la"]
+[ext_resource type="AudioStream" uid="uid://2udya127dwic" path="res://sounds/Weak-end-music.mp3" id="1_pa30i"]
+[ext_resource type="Script" uid="uid://c6c245lir2jk7" path="res://sounds/music_stream.gd" id="2_1iar7"]
+[ext_resource type="AudioStream" uid="uid://m4vn3pufklha" path="res://sounds/Weak_end_music_(with_solo).mp3" id="3_somqd"]
+[ext_resource type="Script" uid="uid://38nwo1imuxqq" path="res://sounds/effects_player.gd" id="5_k6jen"]
+
+[node name="Sound" type="VBoxContainer" node_paths=PackedStringArray("sfx")]
+custom_minimum_size = Vector2(120, 40)
+offset_right = 125.0
+offset_bottom = 40.0
+script = ExtResource("1_4m0la")
+sfx = NodePath("EffectsPlayer")
+
+[node name="MusicVolume" type="HSlider" parent="."]
+layout_mode = 2
+max_value = 1.0
+step = 0.025
+value = 1.0
+
+[node name="EffectVolume" type="HSlider" parent="."]
+layout_mode = 2
+max_value = 1.0
+step = 0.025
+value = 1.0
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_pa30i")
+bus = &"Music"
+script = ExtResource("2_1iar7")
+music_tracks = Array[AudioStream]([ExtResource("1_pa30i"), ExtResource("3_somqd")])
+
+[node name="EffectsPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"SFX"
+script = ExtResource("5_k6jen")
+
+[connection signal="value_changed" from="MusicVolume" to="." method="_on_music_volume_value_changed"]
+[connection signal="value_changed" from="EffectVolume" to="." method="_on_effect_volume_value_changed"]
+[connection signal="finished" from="MusicPlayer" to="MusicPlayer" method="_on_finished"]
