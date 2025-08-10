@@ -14,6 +14,11 @@ config/name="Weak-End Energy"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Fred="*res://fred.gd"
+Sound="*res://sounds/sound.tscn"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
