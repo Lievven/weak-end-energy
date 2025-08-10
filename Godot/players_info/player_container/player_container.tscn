@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8u1w48dr3lnq"]
+
+[ext_resource type="PackedScene" uid="uid://cce4y2xfg6nxi" path="res://players_info/counters/personal_task_counter/personal_counter.tscn" id="1_82p52"]
+[ext_resource type="PackedScene" uid="uid://j3gnu52tajr8" path="res://players_info/counters/energy_counter/energy_counter.tscn" id="2_1ei21"]
+
+[node name="player_container" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -768.0
+offset_bottom = -568.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(94, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "H Player"
+
+[node name="personal_counter" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_82p52")]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+
+[node name="energy" parent="VBoxContainer" instance=ExtResource("2_1ei21")]
+custom_minimum_size = Vector2(370, 60)
+layout_mode = 2

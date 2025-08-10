@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://j3gnu52tajr8"]
 
-[ext_resource type="Texture2D" uid="uid://banty6glpcoj7" path="res://counters/energy_counter/2.webp" id="1_y5r2t"]
-[ext_resource type="Script" uid="uid://cevo5k4kykheh" path="res://counters/energy_counter/margin_container.gd" id="2_y5r2t"]
-[ext_resource type="Texture2D" uid="uid://5cyd5uvh4b0o" path="res://counters/energy_counter/1.webp" id="3_ldxdq"]
+[ext_resource type="Texture2D" uid="uid://banty6glpcoj7" path="res://players_info/counters/energy_counter/2.webp" id="1_y5r2t"]
+[ext_resource type="Script" uid="uid://cevo5k4kykheh" path="res://players_info/counters/energy_counter/margin_container.gd" id="2_y5r2t"]
+[ext_resource type="Texture2D" uid="uid://5cyd5uvh4b0o" path="res://players_info/counters/energy_counter/1.webp" id="3_ldxdq"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -13,7 +13,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.15, 0.15)
 texture = ExtResource("1_y5r2t")
 centered = false
 
@@ -26,6 +26,6 @@ grow_vertical = 2
 script = ExtResource("2_y5r2t")
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.15, 0.15)
 texture = ExtResource("3_ldxdq")
 centered = false

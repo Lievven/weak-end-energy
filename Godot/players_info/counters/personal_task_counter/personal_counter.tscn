@@ -1,14 +1,14 @@
 [gd_scene load_steps=2 format=3 uid="uid://cce4y2xfg6nxi"]
 
-[ext_resource type="Script" uid="uid://bc5pioygnxnk3" path="res://counters/personal_task_counter/number.gd" id="2_ja2bj"]
+[ext_resource type="Script" uid="uid://bc5pioygnxnk3" path="res://players_info/counters/personal_task_counter/number.gd" id="2_ja2bj"]
 
 [node name="personal_counter" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -672.0
-offset_bottom = -548.0
+offset_right = -872.0
+offset_bottom = -578.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -17,6 +17,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -40.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 10
@@ -24,10 +25,10 @@ alignment = 1
 
 [node name="Personal" type="Label" parent="HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 35
+theme_override_font_sizes/font_size = 16
 text = "Completed personal tasks:"
 
 [node name="Number" type="Label" parent="HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 35
+theme_override_font_sizes/font_size = 16
 script = ExtResource("2_ja2bj")

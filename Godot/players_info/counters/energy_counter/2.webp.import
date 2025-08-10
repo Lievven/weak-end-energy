@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djagydfu2w2nc"
-path="res://.godot/imported/placeholder_counter.png-dd85dbf71642bc65392955df5f066c4e.ctex"
+uid="uid://banty6glpcoj7"
+path="res://.godot/imported/2.webp-379fddec905939620b6067afe7ef2b5d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://counters/multiple_task_counter/placeholder_counter.png"
-dest_files=["res://.godot/imported/placeholder_counter.png-dd85dbf71642bc65392955df5f066c4e.ctex"]
+source_file="res://players_info/counters/energy_counter/2.webp"
+dest_files=["res://.godot/imported/2.webp-379fddec905939620b6067afe7ef2b5d.ctex"]
 
 [params]
 
