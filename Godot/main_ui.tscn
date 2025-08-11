@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://2w1lidmwegnf"]
+[gd_scene load_steps=4 format=3 uid="uid://bkg7n1gl3ow5u"]
 
 [ext_resource type="PackedScene" uid="uid://ehqxfyot76ux" path="res://players_info/local_player_info/player_info.tscn" id="1_2ppmm"]
 [ext_resource type="PackedScene" uid="uid://c6t3cbs6jhyog" path="res://players_info/other_players_info/other_players.tscn" id="2_w37m7"]
@@ -11,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="other_players" parent="." instance=ExtResource("2_w37m7")]
 layout_mode = 1

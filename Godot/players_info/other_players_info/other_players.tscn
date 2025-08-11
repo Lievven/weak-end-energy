@@ -10,6 +10,7 @@ anchor_bottom = 1.0
 offset_bottom = -568.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -24,13 +25,16 @@ alignment = 1
 [node name="player_container" parent="HBoxContainer" instance=ExtResource("1_ndwr6")]
 custom_minimum_size = Vector2(384, 140)
 layout_mode = 2
+mouse_filter = 0
 
 [node name="player_container2" parent="HBoxContainer" instance=ExtResource("1_ndwr6")]
 custom_minimum_size = Vector2(384, 140)
 layout_mode = 2
+mouse_filter = 0
 remote_player_index = 1
 
 [node name="player_container3" parent="HBoxContainer" instance=ExtResource("1_ndwr6")]
 custom_minimum_size = Vector2(384, 140)
 layout_mode = 2
+mouse_filter = 0
 remote_player_index = 2
