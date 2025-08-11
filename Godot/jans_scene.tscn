@@ -32,7 +32,6 @@ environment = SubResource("Environment_vslsf")
 [node name="StagingArea" parent="." instance=ExtResource("4_xrgg8")]
 
 [node name="UI" parent="." instance=ExtResource("6_e6lia")]
-mouse_filter = 2
 
 [node name="Button" type="Button" parent="UI"]
 layout_mode = 0
