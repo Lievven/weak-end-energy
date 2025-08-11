@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 Fred="*res://fred.gd"
 Sound="*res://sounds/sound.tscn"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
