@@ -1,16 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://e8bhwjkcn0ir"]
+[gd_scene load_steps=12 format=3 uid="uid://e8bhwjkcn0ir"]
 
-[ext_resource type="PackedScene" uid="uid://dkdlmjor1so01" path="res://board_and_clock_2.fbx" id="2_86lhx"]
 [ext_resource type="PackedScene" uid="uid://dwansns35h8w4" path="res://card_ui/card_hand.tscn" id="2_n0yoy"]
 [ext_resource type="PackedScene" uid="uid://dwrs03074tgo1" path="res://resources/board_and_clock.fbx" id="2_vslsf"]
 [ext_resource type="Script" uid="uid://dfinw6b8dggu" path="res://button.gd" id="3_n0yoy"]
 [ext_resource type="PackedScene" uid="uid://boxlrrifk2hh1" path="res://staging/staging_area.tscn" id="4_xrgg8"]
-[ext_resource type="PackedScene" uid="uid://de85dukbwipsf" path="res://menu.tscn" id="5_dwnfq"]
+[ext_resource type="PackedScene" path="res://menu.tscn" id="5_dwnfq"]
 [ext_resource type="PackedScene" uid="uid://2w1lidmwegnf" path="res://main_ui.tscn" id="6_e6lia"]
+[ext_resource type="PackedScene" uid="uid://7snan8gapjes" path="res://ending_screen.tscn" id="7_86lhx"]
+[ext_resource type="Script" uid="uid://bv00ryumv72va" path="res://endingscreen.gd" id="8_j6erj"]
+[ext_resource type="Texture2D" uid="uid://bypl67tobaiae" path="res://vacation_approved.png" id="8_tmg3v"]
+[ext_resource type="Texture2D" uid="uid://dmtrwamep360" path="res://BURNT_TO_A_CRISP.png" id="9_a8goq"]
 
 [sub_resource type="Environment" id="Environment_vslsf"]
 ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_energy = 16.0
 
 [node name="JansScene" type="Node3D"]
 
@@ -19,10 +21,6 @@ transform = Transform3D(1, 0, 0, 0, 0.00563733, 0.999984, 0, -0.999984, 0.005637
 
 [node name="board_and_clock" parent="." instance=ExtResource("2_vslsf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.34094, 0, -0.923387)
-visible = false
-
-[node name="board_and_clock_2" parent="." instance=ExtResource("2_86lhx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.29639, 0, -0.868425)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_vslsf")
@@ -38,9 +36,60 @@ script = ExtResource("3_n0yoy")
 
 [node name="StagingArea" parent="." instance=ExtResource("4_xrgg8")]
 
+[node name="MenuScene" parent="." instance=ExtResource("5_dwnfq")]
+
 [node name="UI" parent="." instance=ExtResource("6_e6lia")]
 mouse_filter = 2
 
-[node name="MenuScene" parent="." instance=ExtResource("5_dwnfq")]
+[node name="EndingScreen" parent="." instance=ExtResource("7_86lhx")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("8_j6erj")
+
+[node name="Win" type="ColorRect" parent="EndingScreen"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.756863, 0.6, 0.615686)
+
+[node name="Win" type="TextureRect" parent="EndingScreen/Win"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("8_tmg3v")
+
+[node name="Loss" type="ColorRect" parent="EndingScreen"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.756863, 0.6, 0.615686)
+
+[node name="Win" type="TextureRect" parent="EndingScreen/Loss"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("9_a8goq")
 
 [connection signal="pressed" from="CardHand/Button" to="CardHand/Button" method="_on_pressed"]
