@@ -7,23 +7,24 @@ extends Control
 @export var choose_button: Button
 @export var diceResultContainersParent : Control
 @export var diceResultControllers : Array[diceResultContainer]
+@export var backSideVisual : Control
 
 var card_id;
 
 func set_staging(cardData):
-	if(cardData == null || !isLocalPlayerCard):
+	if(cardData == null):
 		set_hidden();
 		return;
-		
+	
 	process_mode = Node.PROCESS_MODE_INHERIT
 	visible = true;
+	backSideVisual.visible = !isLocalPlayerCard
 	
 	card_id = cardData.id;
 	choose_button.disabled = true;
 	
 	card.generate_card(cardData)
-	var scale_factor = 1
-	scale = Vector2.ONE * scale_factor;
+	scale = Vector2.ONE;
 	
 	diceResultContainersParent.visible = false;
 
@@ -34,6 +35,7 @@ func set_choosing(cardData, locally_selected_card_Id):
 		
 	process_mode = Node.PROCESS_MODE_INHERIT
 	visible = true;
+	backSideVisual.visible = false;
 	
 	card_id = cardData.id;
 	choose_button.disabled = false;
@@ -64,7 +66,7 @@ func set_choose_result(cardData, gsw : game_state_wrapper):
 	choose_button.disabled = true;
 	
 	card.generate_card(cardData)
-	
+	scale = Vector2.ONE;
 	diceResultContainersParent.visible = true;
 	
 	for v in diceResultControllers:
