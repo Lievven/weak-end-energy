@@ -1,11 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://e8bhwjkcn0ir"]
+[gd_scene load_steps=10 format=3 uid="uid://e8bhwjkcn0ir"]
 
 [ext_resource type="PackedScene" uid="uid://dkdlmjor1so01" path="res://board_and_clock_2.fbx" id="2_86lhx"]
 [ext_resource type="PackedScene" uid="uid://dwansns35h8w4" path="res://card_ui/card_hand.tscn" id="2_n0yoy"]
 [ext_resource type="PackedScene" uid="uid://dwrs03074tgo1" path="res://resources/board_and_clock.fbx" id="2_vslsf"]
 [ext_resource type="Script" uid="uid://dfinw6b8dggu" path="res://button.gd" id="3_n0yoy"]
+[ext_resource type="Script" uid="uid://bj7a4jorko4c" path="res://clock/BoardAndClockController.gd" id="3_tmg3v"]
 [ext_resource type="PackedScene" uid="uid://boxlrrifk2hh1" path="res://staging/staging_area.tscn" id="4_xrgg8"]
-[ext_resource type="PackedScene" path="res://menu.tscn" id="5_dwnfq"]
+[ext_resource type="PackedScene" uid="uid://de85dukbwipsf" path="res://menu.tscn" id="5_dwnfq"]
 [ext_resource type="PackedScene" uid="uid://bkg7n1gl3ow5u" path="res://main_ui.tscn" id="6_e6lia"]
 
 [sub_resource type="Environment" id="Environment_vslsf"]
@@ -23,6 +24,11 @@ visible = false
 
 [node name="board_and_clock_2" parent="." instance=ExtResource("2_86lhx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.29639, 0, -0.868425)
+
+[node name="Node" type="Node" parent="." node_paths=PackedStringArray("clock_arm_parent")]
+script = ExtResource("3_tmg3v")
+clock_arm_parent = NodePath("../board_and_clock_2")
+clock_arm_name = "Cylinder"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_vslsf")

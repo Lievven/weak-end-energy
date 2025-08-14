@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://b8u1w48dr3lnq"]
 
-[ext_resource type="Script" path="res://players_info/player_ui.gd" id="1_1ei21"]
+[ext_resource type="Script" uid="uid://vbqekdd250st" path="res://players_info/player_ui.gd" id="1_1ei21"]
 [ext_resource type="PackedScene" uid="uid://cce4y2xfg6nxi" path="res://players_info/counters/personal_task_counter/personal_counter.tscn" id="1_82p52"]
 [ext_resource type="PackedScene" uid="uid://j3gnu52tajr8" path="res://players_info/counters/energy_counter/energy_counter.tscn" id="2_1ei21"]
 

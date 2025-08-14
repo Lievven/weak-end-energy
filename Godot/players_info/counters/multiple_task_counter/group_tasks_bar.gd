@@ -16,4 +16,4 @@ func game_state_wrapper_changed(gsw : game_state_wrapper):
 	if !is_started:
 		return;
 		
-	bar.set_values(gsw.inner_game_state.completedGroupTasks,gsw.inner_game_state.conGeneral.groupTasksCompletionTarget);
+	bar.set_values(gsw.inner_game_state.completedGroupTasks,gsw.get_playercount_con().groupTasksCompletionTarget);

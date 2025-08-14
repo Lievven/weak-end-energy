@@ -9,11 +9,37 @@ const conDb = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE | sqlite3.OPEN
 const cors = require("cors");
 
 var conGeneral = {
+    byPlayerCount : [
+        //0 players
+        {},
+        //1 player
+        {
+            startEnergy: 10,
+            maxEnergy: 10,
+            groupTasksCompletionTarget: 2,
+        },
+        //2 players
+        {
+            startEnergy: 10,
+            maxEnergy: 10,
+            groupTasksCompletionTarget: 6,
+        },
+        //3 players
+        {
+            startEnergy: 10,
+            maxEnergy: 10,
+            groupTasksCompletionTarget: 8,
+        },
+        //4 players
+        {
+            startEnergy: 10,
+            maxEnergy: 10,
+            groupTasksCompletionTarget: 10,
+        },
+    ],
     numTurns: 12,
-    startEnergy: 10,
     numCardsOnHand: 4,
     maxPlayers: 4,
-    groupTasksCompletionTarget: 8,
     numMaxSessions: 10,
     playerTimeoutMs: 25000,
 }
@@ -193,7 +219,7 @@ function GenerateFullStack(cardId) {
         for (let i = 0; i < card.deckCount; i++) {
 
             var cardInstance = structuredClone(card);
-            cardInstance.id = "Crd" + cardId;
+            cardInstance.id = "C" + cardId;
             cardId+=1;
             cards.push(cardInstance);
         }
@@ -266,7 +292,7 @@ function GetOrCreateSession(user) {
 }
 
 function GetExistingSession(user) {
-    for (let sessionIndex = 0; sessionIndex < sessions.length; sessionIndex++) {
+    for (let sessionIndex = sessions.length - 1; sessionIndex >= 0; sessionIndex--) {
         const session = sessions[sessionIndex];
         for (let playerIndex = 0; playerIndex < session.gameState.players.length; playerIndex++) {
             const player = session.gameState.players[playerIndex];
@@ -283,7 +309,7 @@ function GetExistingSession(user) {
 function AddPlayerToSession(session, user) {
     session.gameState.players.push({
         name: user,
-        energy: conGeneral.startEnergy,
+        energy: 0,
         hand: [],
         lastDiceResult: 0,
         lastStagedCard: null,
@@ -310,6 +336,7 @@ function StartGame(session) {
 
     session.gameState.players.forEach(player => {
         player.hand = session.gameState.cardStack.splice(0, conGeneral.numCardsOnHand);
+        player.energy = conGeneral.byPlayerCount[session.gameState.players.length].startEnergy;
     });
 
     session.gameState.version += 1;
@@ -439,6 +466,13 @@ function MaybeEndChoosingPhase(session) {
     gameState.turnIndex += 1;
     gameState.phaseIndex = 0;
 
+    if(gameState.completedGroupTasks >= conGeneral.byPlayerCount[gameState.players.length].groupTasksCompletionTarget)
+    {
+        gameState.ended = true;
+        won = true;
+        return;
+    }
+
     for (let i = 0; i < gameState.players.length; i++) {
         const player = gameState.players[i];
 
@@ -451,7 +485,7 @@ function MaybeEndChoosingPhase(session) {
 
     if (gameState.turnIndex == conGeneral.numTurns) {
         gameState.ended = true;
-        won = true;
+        won = false;
         return;
     }
 
@@ -483,7 +517,7 @@ function ApplyCardEffects(owner, card, playerTargets, gameState) {
                 throw new Error("No effect for result " + player.lastDiceResult + " for card " + card.name);
             }
 
-            player.energy += cardEffect.energyChange;
+            player.energy = Math.min(player.energy + cardEffect.energyChange, gameState.conGeneral.byPlayerCount[gameState.players.length].maxEnergy);
             if (cardEffect.discardCard) {
                 anyDiscard = true;
             }

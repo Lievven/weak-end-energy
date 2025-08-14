@@ -55,9 +55,15 @@ func get_remote_player(remote_player_index:int):
 
 func get_turn_index()->int:
 	return inner_game_state.turnIndex;
+	
+func get_turns_max()->int:
+	return inner_game_state.conGeneral.numTurns;
 
 func get_is_staging_phase()->bool:
 	return inner_game_state.phaseIndex == 0;
 	
 func get_is_choosing_activity_phase()->bool:
 	return inner_game_state.phaseIndex == 1;
+	
+func get_playercount_con():
+	return inner_game_state.conGeneral.byPlayerCount[inner_game_state.players.size()];
