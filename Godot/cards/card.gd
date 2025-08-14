@@ -7,7 +7,6 @@ class_name Card
 var card_id = -1
 
 func generate_card(card):
-	print(card)
 	card_id = card["id"]
 	$NameLabel.text = card["name"]
 	
