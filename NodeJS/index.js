@@ -16,7 +16,7 @@ var conGeneral = {
         {
             startEnergy: 10,
             maxEnergy: 10,
-            groupTasksCompletionTarget: 2,
+            groupTasksCompletionTarget: 4,
         },
         //2 players
         {
@@ -34,7 +34,7 @@ var conGeneral = {
         {
             startEnergy: 10,
             maxEnergy: 10,
-            groupTasksCompletionTarget: 10,
+            groupTasksCompletionTarget: 11,
         },
     ],
     numTurns: 12,
