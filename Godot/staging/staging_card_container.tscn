@@ -24,8 +24,8 @@ diceResultControllers = [NodePath("DiceResults/DiceResultContainer1"), NodePath(
 backSideVisual = NodePath("Backside")
 
 [node name="Card" parent="." instance=ExtResource("1_0n6p1")]
-layout_mode = 1
-anchors_preset = 8
+layout_mode = 2
+anchors_preset = 0
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = -1.0
@@ -38,15 +38,14 @@ mouse_filter = 2
 
 [node name="Backside" type="TextureRect" parent="."]
 visible = false
-layout_mode = 0
+layout_mode = 2
 offset_right = 125.0
 offset_bottom = 180.0
 texture = ExtResource("3_tb4xj")
 expand_mode = 1
 
 [node name="SelectButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 15
+layout_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -54,8 +53,7 @@ grow_vertical = 2
 flat = true
 
 [node name="DiceResults" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 12
+layout_mode = 2
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -82,4 +80,6 @@ layout_mode = 2
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 
+[connection signal="mouse_entered" from="SelectButton" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="SelectButton" to="." method="_on_mouse_exited"]
 [connection signal="pressed" from="SelectButton" to="." method="choose_button_pressed"]
