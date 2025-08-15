@@ -182,7 +182,7 @@ app.get("/action", (req, res) => {
 
 app.get("/tools/generateConstants", async (req, res) => {
     await GenerateConstants();
-    res.send("regenerated constants!");
+    res.send("regenerated constants!\n"+JSON.stringify(constants));
 });
 
 app.get("/", async (req, res) => {
@@ -575,6 +575,10 @@ function GenerateConstants() {
 
                 allCards.forEach(card => {
                     card.effects = allCardEffects.filter((e) => e.cardName == card.name);
+                    card.effects.forEach(e=>{
+                        //cardName field no longer required
+                        delete e.cardName;
+                    });
                 });
 
                 constants = {};
