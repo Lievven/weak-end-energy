@@ -27,3 +27,5 @@ func game_state_wrapper_changed(gsw : game_state_wrapper):
 	nameLabel.text = player.name;
 	energyContainer.set_values(player.energy, 10);
 	personalCounterValue.text = str(player.completedPersonalTasks);
+	
+	energyContainer.set_color(gsw.get_player_color(player.name))

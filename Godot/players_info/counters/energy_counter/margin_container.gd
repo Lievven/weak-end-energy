@@ -9,9 +9,11 @@ var m_left = 80
 var m_top = 80
 var m_bottom = 70
 
+var color_rect: ColorRect
+
 func _ready():
 	# Add child first
-	var color_rect = ColorRect.new()
+	color_rect = ColorRect.new()
 	color_rect.color = Color.GREEN
 	add_child(color_rect)
 	
@@ -34,6 +36,9 @@ func set_values(value : int, max : int):
 	counter_value = value;
 	max_value = max;
 	update_counter_display();
+	
+func set_color(color: Color):
+	color_rect.color = color
 
 func update_counter_display():
 	var counter_percentage = counter_value / float(max_value)
